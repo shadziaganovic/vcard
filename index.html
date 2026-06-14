@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+
+<script id="auto-language-bootstrap">
+(function(){
+  const supported=['hr','en','de','es','it','fr'];
+  function detect(){
+    const raw=(navigator.languages&&navigator.languages[0])||navigator.language||'en';
+    const l=String(raw).toLowerCase().slice(0,2);
+    return supported.includes(l)?l:'en';
+  }
+  try{
+    const saved=localStorage.getItem('vizitka_lang')||localStorage.getItem('lang')||localStorage.getItem('vizitka-jezik');
+    const l=supported.includes(String(saved||'').toLowerCase().slice(0,2))?String(saved).toLowerCase().slice(0,2):detect();
+    localStorage.setItem('vizitka_lang',l);
+    localStorage.setItem('lang',l);
+    localStorage.setItem('vizitka-jezik',l);
+    document.documentElement.lang=l;
+    window.__VIZITKA_INITIAL_LANG__=l;
+  }catch(e){
+    const l=detect();
+    document.documentElement.lang=l;
+    window.__VIZITKA_INITIAL_LANG__=l;
+  }
+})();
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Vizitka</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Vizitka">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#06111f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06111f;--bg2:#0b1728;--panel:#111f34;--panel2:#0c1728;--text:#f8f9fa;--muted:#9fb0c7;
+  --gold:#8FD3FF;--gold2:#D9F4FF;--line:rgba(143,211,255,.38);--danger:#ff5b5b;
+  --ice:#8FD3FF;--ice2:#B7E7FF;--ice3:#D9F4FF;--iceDeep:#2F91C7;
+  --card:#10213a;--card2:#0a1628;--cardText:#f8f9fa;--cardMuted:#aebbd0;
+}
+[data-theme="black"]{--bg:#030405;--bg2:#0c0c0f;--panel:#121214;--panel2:#09090b;--card:#101010;--card2:#050505}
+[data-theme="white"]{--bg:#f3f0e8;--bg2:#fffaf0;--panel:#fffdfa;--panel2:#f8f2e5;--text:#152033;--muted:#5f6d7d;--card:#fffdfa;--card2:#f5efe1;--cardText:#152033;--cardMuted:#5f6d7d}
+[data-theme="emerald"]{--bg:#021713;--bg2:#06342b;--panel:#0a2b24;--panel2:#041c18;--card:#0b332b;--card2:#041c18}
+[data-theme="burgundy"]{--bg:#19050c;--bg2:#3a0c18;--panel:#35111c;--panel2:#18060d;--card:#3a111d;--card2:#17060c}
+*{box-sizing:border-box} html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Archivo,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+body{background:
+ radial-gradient(900px 650px at 50% -18%,rgba(255,255,255,.20),transparent 62%),
+ radial-gradient(650px 460px at -15% 30%,rgba(143,211,255,.08),transparent 60%),
+ linear-gradient(160deg,var(--bg),#020916 80%);}
+button,input,textarea{font:inherit} button{cursor:pointer} [hidden]{display:none!important}
+.app{width:min(100%,520px);margin:0 auto;min-height:100vh;padding:calc(env(safe-area-inset-top) + 18px) 18px calc(env(safe-area-inset-bottom) + 24px)}
+.topbar{display:flex;justify-content:flex-end;align-items:center;min-height:48px;margin-bottom:18px}
+.lang-wrap{position:relative;z-index:10} .pill{border:1px solid var(--line);border-radius:999px;background:rgba(8,18,33,.84);color:var(--ice2);padding:10px 14px;font-weight:800;box-shadow:0 12px 30px rgba(0,0,0,.24)}
+.lang-menu{position:absolute;right:0;top:calc(100% + 8px);min-width:136px;padding:7px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,var(--panel),var(--panel2));box-shadow:0 18px 45px rgba(0,0,0,.42)}
+.lang-menu button{display:block;width:100%;border:0;border-radius:12px;background:transparent;color:var(--text);padding:10px;text-align:left;font-weight:800} .lang-menu button.active,.lang-menu button:hover{background:linear-gradient(145deg,var(--ice),var(--ice3));color:#06111f}
+.logoBox{display:grid;place-items:center;text-align:center;margin:42px auto 46px} .logoIcon{width:126px;height:126px;border:3px solid var(--gold);border-radius:24px;display:grid;place-items:center;color:var(--ice2);font-family:Marcellus,serif;font-size:72px;box-shadow:0 18px 55px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.08)} .logoIcon small{font-size:22px;align-self:start;margin-top:22px;margin-left:-18px}
+.brand{font-size:40px;letter-spacing:.26em;color:var(--ice2);margin:22px 0 4px;font-weight:400} .subbrand{letter-spacing:.32em;color:var(--ice2);font-size:13px}
+.heroTitle{font-family:Marcellus,Georgia,serif;font-size:clamp(36px,10vw,58px);line-height:1.08;text-align:center;margin:0 0 18px} .heroTitle em{color:var(--gold2);font-style:normal} .heroText{color:var(--muted);font-size:20px;line-height:1.42;text-align:center;margin:0 auto 38px;max-width:420px}
+.divider{width:160px;height:1px;background:linear-gradient(90deg,transparent,var(--ice),transparent);margin:0 auto 34px;position:relative} .divider:after{content:"";position:absolute;left:50%;top:50%;width:14px;height:14px;border-radius:50%;background:var(--ice2);transform:translate(-50%,-50%);box-shadow:0 0 18px var(--ice2)}
+.btn{border:1px solid rgba(255,255,255,.08);border-radius:20px;background:linear-gradient(145deg,var(--panel),var(--panel2));color:var(--text);padding:16px 18px;font-weight:800;display:flex;align-items:center;gap:12px;justify-content:center;box-shadow:0 12px 30px rgba(0,0,0,.22)} .btn.primary{background:linear-gradient(145deg,var(--ice3),var(--ice));color:#06111f;border-color:var(--ice3)} .btn.ghost{border-color:var(--line);color:var(--ice2)} .btn.big{width:100%;justify-content:space-between;font-size:23px;padding:22px 26px;border-radius:22px} .btn .ico{font-size:30px} .mutedSub{font-weight:500;color:rgba(255,255,255,.68);font-size:15px;margin-top:3px}
+.privacy{margin:34px auto 0;text-align:center;color:var(--muted);font-size:15px;line-height:1.5} .privacy b{color:var(--gold2);font-weight:700}
+.card{border:1.5px solid var(--gold);border-radius:22px;background:linear-gradient(145deg,var(--card),var(--card2));padding:22px;box-shadow:0 22px 60px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.05)} .cardTop{display:flex;gap:18px;align-items:center} .avatar{width:76px;height:76px;border:3px solid var(--gold);border-radius:50%;display:grid;place-items:center;font-family:Marcellus,serif;font-size:30px;color:var(--gold2);flex:0 0 auto} .nm{font-family:Marcellus,serif;font-size:30px;line-height:1.05;color:var(--cardText)} .role{color:var(--gold2);text-transform:uppercase;letter-spacing:.16em;font-size:14px;font-weight:800;margin-top:7px} .rule{height:1px;background:linear-gradient(90deg,var(--gold),rgba(143,211,255,.12));margin:22px 0} .rows{display:grid;gap:15px} .row{display:flex;align-items:flex-start;gap:14px;color:var(--cardText);font-size:18px;line-height:1.25} .row i{width:22px;color:var(--gold2);font-style:normal;text-align:center;flex:0 0 auto}
+.secTitle{text-align:center;color:var(--muted);font-weight:800;letter-spacing:.28em;margin:28px 0 10px;text-transform:uppercase}
+.qrWrap{width:min(100%,330px);margin:0 auto;background:linear-gradient(145deg,var(--panel),var(--panel2));border-radius:22px;padding:24px;box-shadow:0 14px 38px rgba(0,0,0,.25)} #qrcode canvas{display:block;width:100%;height:auto;background:#fff;border:12px solid #fff;border-radius:7px} .qrCap{text-align:center;color:var(--muted);font-size:16px;line-height:1.35;margin:12px auto 24px;max-width:360px}
+.actionGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 16px} .miniBtn{min-height:96px;flex-direction:column;gap:7px;border-radius:18px;padding:14px 8px;font-size:16px} .miniBtn .ico{font-size:24px;color:var(--gold2)} .goldText{color:var(--ice2);font-size:14px;font-weight:700}
+.listBtn{width:100%;justify-content:space-between;margin-top:12px;text-align:left} .listBtn span:first-child{display:flex;gap:14px;align-items:center} .listBtn .ico{color:var(--gold2)} .listBtn.danger{color:var(--danger);border-color:rgba(255,91,91,.25)} .footer{text-align:center;color:var(--muted);font-size:14px;margin:22px auto 0;max-width:360px}
+.panel{background:linear-gradient(145deg,var(--panel),var(--panel2));border:1px solid rgba(255,255,255,.08);border-radius:26px;padding:20px;box-shadow:0 16px 42px rgba(0,0,0,.28)} .screenHead{display:flex;align-items:center;justify-content:space-between;margin:6px 0 20px} .back,.close{border:0;background:transparent;color:var(--text);font-size:28px} h2{margin:0;font-size:20px} .tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:10px 0 22px} .tab{border:0;background:transparent;color:var(--muted);font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;padding:6px 2px} .tab.active{color:var(--gold2)} .tab b{font-size:18px}
+.field{margin-bottom:13px} label{display:block;color:var(--muted);font-size:12px;margin:0 0 6px;text-transform:uppercase;letter-spacing:.08em;font-weight:800} input,textarea{width:100%;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.04);color:var(--text);padding:15px 14px;font-size:16px} textarea{min-height:110px;resize:vertical} input::placeholder,textarea::placeholder{color:#7d8ca3;opacity:.55} .navRow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px} .navRow.single{grid-template-columns:1fr} .toggleRow{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px;margin:10px 0} .switch{width:58px;height:34px;border-radius:999px;background:linear-gradient(145deg,var(--ice3),var(--ice));position:relative} .switch:after{content:"";width:28px;height:28px;position:absolute;right:3px;top:3px;border-radius:50%;background:white}
+.themeList{border:1px solid var(--line);border-radius:18px;overflow:hidden} .themeItem{display:flex;align-items:center;gap:14px;padding:14px;border-bottom:1px solid rgba(255,255,255,.08);background:transparent;color:var(--text);width:100%;text-align:left} .themeItem:last-child{border-bottom:0} .radio{width:22px;height:22px;border:2px solid var(--muted);border-radius:50} .themeItem.active .radio{border-color:var(--ice2);box-shadow:inset 0 0 0 5px var(--panel),inset 0 0 0 20px var(--ice2)} .swatch{width:58px;height:36px;border-radius:6px;border:1px solid rgba(255,255,255,.2)} .sw-navy{background:#10213a}.sw-black{background:#050505}.sw-white{background:#fffdfa}.sw-emerald{background:#0b332b}.sw-burgundy{background:#3a111d} .activeNote{color:var(--ice2);font-size:13px;margin-top:2px}
+.installStep{display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px;margin:10px 0} .num{width:27px;height:27px;border-radius:50%;border:1px solid var(--gold);color:var(--ice2);display:grid;place-items:center;font-weight:800;flex:0 0 auto} .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 18px} .seg button{border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.04);color:var(--text);padding:13px;font-weight:800} .seg button.active{background:linear-gradient(145deg,#D9F4FF,#8FD3FF);color:#06111f}
+.success{display:grid;place-items:center;text-align:center;min-height:72vh} .check{width:118px;height:118px;border:2px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--ice2);font-size:58px;margin:30px auto}
+@media(max-width:390px){.app{padding-left:13px;padding-right:13px}.card{padding:18px}.nm{font-size:25px}.row{font-size:16px}.actionGrid{gap:8px}.miniBtn{font-size:14px}.brand{font-size:33px}}
+
+/* Ice Blue UI refinement */
+.pill{color:var(--ice2);border-color:rgba(143,211,255,.42)}
+.lang-menu{border-color:rgba(143,211,255,.36)}
+.logoIcon{border-color:var(--gold);color:var(--gold2)}
+.brand,.subbrand{color:var(--ice2)}
+.btn.primary{background:linear-gradient(145deg,var(--ice3),var(--ice));color:#06111f;border-color:var(--ice3);box-shadow:0 14px 34px rgba(143,211,255,.22)}
+.btn.ghost{border-color:rgba(143,211,255,.52);color:var(--ice2)}
+.miniBtn .ico,.listBtn .ico,.goldText,.tab.active,.activeNote{color:var(--ice2)!important}
+.qrWrap{box-shadow:0 0 0 1px rgba(143,211,255,.18),0 18px 46px rgba(143,211,255,.12),0 14px 38px rgba(0,0,0,.25)}
+.secTitle{color:var(--ice2)}
+.themeItem.active .radio{border-color:var(--ice2);box-shadow:inset 0 0 0 5px var(--panel),inset 0 0 0 20px var(--ice2)}
+.switch{background:linear-gradient(145deg,var(--ice3),var(--ice))}
+.num{border-color:var(--ice);color:var(--ice2)}
+.divider{background:linear-gradient(90deg,transparent,var(--ice),transparent)}
+.divider:after{background:var(--ice2);box-shadow:0 0 18px var(--ice2)}
+.card{border-color:var(--gold)}
+.avatar{border-color:var(--gold);color:var(--gold2)}
+.role,.row i{color:var(--gold2)!important}
+.rule{background:linear-gradient(90deg,var(--gold),rgba(143,211,255,.12))}
+
+.qrTitleHidden{display:none!important}
+
+/* FINAL Ice Blue: no yellow/gold, unified buttons */
+:root{
+  --gold:#8FD3FF;
+  --gold2:#D9F4FF;
+  --line:rgba(143,211,255,.42);
+  --ice:#8FD3FF;
+  --ice2:#B7E7FF;
+  --ice3:#D9F4FF;
+}
+
+/* remove old yellow feel from all card elements */
+.card,
+.avatar,
+.themeList,
+.installStep,
+.num{
+  border-color:rgba(143,211,255,.70)!important;
+}
+.role,
+.row i,
+.avatar,
+.logoIcon,
+.brand,
+.subbrand,
+.goldText,
+.secTitle,
+.tab.active,
+.activeNote,
+.miniBtn .ico,
+.listBtn .ico{
+  color:var(--ice3)!important;
+}
+.rule{
+  background:linear-gradient(90deg,var(--ice),rgba(143,211,255,.10))!important;
+}
+
+/* real breathing room between business card and QR */
+#cardMount{
+  margin-bottom:44px!important;
+}
+.qrWrap{
+  margin-top:0!important;
+}
+
+/* make all main action buttons consistent with Settings style */
+.btn,
+.btn.primary,
+.btn.ghost,
+.miniBtn,
+.listBtn{
+  background:linear-gradient(145deg,var(--panel),var(--panel2))!important;
+  color:var(--text)!important;
+  border:1px solid rgba(143,211,255,.26)!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.22)!important;
+}
+
+/* bigger primary row, but not filled baby-blue */
+#editBtn{
+  border-color:rgba(143,211,255,.46)!important;
+}
+#editBtn .ico,
+#editBtn [data-i="editData"],
+#installBtn .ico,
+#installBtn [data-i="installGuide"],
+#settingsBtn .ico{
+  color:var(--ice3)!important;
+}
+
+/* action cards same dark style */
+.actionGrid .btn{
+  min-height:96px;
+  border-radius:18px!important;
+}
+
+/* QR glow remains ice blue */
+.qrWrap{
+  border:1px solid rgba(143,211,255,.22);
+  box-shadow:0 0 0 1px rgba(143,211,255,.12),0 20px 52px rgba(143,211,255,.08),0 14px 38px rgba(0,0,0,.25)!important;
+}
+
+/* language selector also ice */
+.pill{
+  color:var(--ice3)!important;
+  border-color:rgba(143,211,255,.48)!important;
+}
+
+/* onboarding buttons: same style, no filled yellow */
+#startBtn{
+  border-color:rgba(143,211,255,.50)!important;
+}
+#startBtn [data-i="createCard"]{
+  color:var(--ice3)!important;
+}
+
+/* settings selected state */
+.lang-menu button.active,
+.lang-menu button:hover,
+.seg button.active{
+  background:linear-gradient(145deg,var(--ice3),var(--ice))!important;
+  color:#06111f!important;
+}
+.switch{
+  background:linear-gradient(145deg,var(--ice3),var(--ice))!important;
+}
+
+/* theme radio active */
+.themeItem.active .radio{
+  border-color:var(--ice3)!important;
+  box-shadow:inset 0 0 0 5px var(--panel),inset 0 0 0 20px var(--ice3)!important;
+}
+
+#cardMount{margin-bottom:44px!important}.qrTitleHidden{display:none!important}
+
+/* V2 FINAL POLISH — unified radii, full-theme color system */
+:root{
+  --r-card:22px;
+  --r-button:22px;
+  --accent:#8FD3FF;
+  --accent-2:#B7E7FF;
+  --accent-3:#D9F4FF;
+  --surface-border:rgba(143,211,255,.42);
+}
+html[data-theme="navy"]{--bg:#06111f;--bg2:#0b1728;--panel:#111f34;--panel2:#0c1728;--card:#10213a;--card2:#0a1628;--text:#f8f9fa;--muted:#9fb0c7;--cardText:#f8f9fa;--accent:#8FD3FF;--accent-2:#B7E7FF;--accent-3:#D9F4FF;--surface-border:rgba(143,211,255,.42)}
+html[data-theme="black"]{--bg:#030507;--bg2:#0d1117;--panel:#11161d;--panel2:#070a0e;--card:#11161d;--card2:#06080b;--text:#f3f7fb;--muted:#a7b3c2;--cardText:#f3f7fb;--accent:#C7D6E8;--accent-2:#E8EEF6;--accent-3:#F5F8FC;--surface-border:rgba(199,214,232,.44)}
+html[data-theme="white"]{--bg:#EAF2F8;--bg2:#F8FBFD;--panel:#F7FBFE;--panel2:#EAF3FA;--card:#FAFCFE;--card2:#F2F8FC;--text:#142236;--muted:#53677F;--cardText:#142236;--accent:#4EAFFF;--accent-2:#8FD3FF;--accent-3:#D9F4FF;--surface-border:rgba(78,175,255,.50)}
+html[data-theme="emerald"]{--bg:#021713;--bg2:#052A23;--panel:#0A2B24;--panel2:#041C18;--card:#0B332B;--card2:#041C18;--text:#F3FFFB;--muted:#9DCEBE;--cardText:#F3FFFB;--accent:#4EF2B5;--accent-2:#9FF8D9;--accent-3:#D9FFF1;--surface-border:rgba(78,242,181,.44)}
+html[data-theme="burgundy"]{--bg:#19050C;--bg2:#300A16;--panel:#35111C;--panel2:#18060D;--card:#3A111D;--card2:#17060C;--text:#FFF7FA;--muted:#D8A8B4;--cardText:#FFF7FA;--accent:#FF7A90;--accent-2:#FFC0CC;--accent-3:#FFE5EA;--surface-border:rgba(255,122,144,.46)}
+
+body{
+  background:
+    radial-gradient(900px 650px at 50% -18%, rgba(143,211,255,.12), transparent 62%),
+    linear-gradient(160deg,var(--bg),var(--bg2) 80%) !important;
+  color:var(--text)!important;
+}
+.card,.qrWrap,.btn,.miniBtn,.listBtn,.panel,.themeList,.themeItem,.installStep,input,textarea{border-radius:var(--r-card)!important}
+.card,.qrWrap,.btn,.btn.primary,.btn.ghost,.miniBtn,.listBtn,.panel,.themeList,.installStep,input,textarea{
+  background:linear-gradient(145deg,var(--panel),var(--panel2))!important;
+  color:var(--text)!important;
+  border:1px solid var(--surface-border)!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.20)!important;
+}
+.card{
+  background:linear-gradient(145deg,var(--card),var(--card2))!important;
+  color:var(--cardText)!important;
+  border:1.2px solid var(--surface-border)!important;
+  box-shadow:0 20px 56px rgba(0,0,0,.24),0 0 0 1px rgba(143,211,255,.10)!important;
+}
+.avatar{border-color:var(--accent)!important;color:var(--accent-3)!important}
+.nm,.row span{color:var(--cardText)!important}
+.role,.row i{color:var(--accent-2)!important}
+.rule{background:linear-gradient(90deg,var(--accent),rgba(143,211,255,.10))!important}
+.logoIcon{border-color:var(--accent)!important;color:var(--accent-2)!important}
+.brand,.subbrand,.heroTitle em,.secTitle,.goldText,.activeNote,.tab.active,.miniBtn .ico,.listBtn .ico,.num,.check,.privacy b{color:var(--accent-2)!important}
+.divider{background:linear-gradient(90deg,transparent,var(--accent),transparent)!important}
+.divider:after{background:var(--accent-2)!important;box-shadow:0 0 18px var(--accent-2)!important}
+.btn.primary{background:linear-gradient(145deg,var(--panel),var(--panel2))!important;color:var(--text)!important}
+#editBtn,#startBtn{border-color:var(--surface-border)!important}
+#editBtn [data-i="editData"],#startBtn [data-i="createCard"],#installBtn [data-i="installGuide"],#settingsBtn [data-i="settings"]{color:var(--accent-3)!important}
+#cardMount{margin-bottom:54px!important}
+.qrWrap{margin-top:0!important;width:min(100%,330px)!important;box-shadow:0 0 0 1px rgba(143,211,255,.14),0 20px 52px rgba(143,211,255,.10),0 14px 38px rgba(0,0,0,.20)!important}
+.qrTitleHidden{display:none!important}
+.actionGrid{gap:12px!important}
+.actionGrid .btn{border-radius:var(--r-card)!important;min-height:96px!important}
+.listBtn{border-radius:var(--r-card)!important}
+.pill,.lang-btn{color:var(--accent-3)!important;border-color:var(--surface-border)!important;background:linear-gradient(145deg,var(--panel),var(--panel2))!important}
+.lang-menu{border-color:var(--surface-border)!important;background:linear-gradient(145deg,var(--panel),var(--panel2))!important}
+.lang-menu button.active,.lang-menu button:hover,.seg button.active{background:linear-gradient(145deg,var(--accent-3),var(--accent))!important;color:#06111f!important}
+.themeItem.active .radio{border-color:var(--accent-2)!important;box-shadow:inset 0 0 0 5px var(--panel),inset 0 0 0 20px var(--accent-2)!important}
+.switch{background:linear-gradient(145deg,var(--accent-3),var(--accent))!important}
+.num{border-color:var(--accent)!important}
+
+html[data-theme="white"] body{background:linear-gradient(160deg,#EAF2F8,#F8FBFD 80%)!important}
+html[data-theme="white"] .card,html[data-theme="white"] .qrWrap,html[data-theme="white"] .btn,html[data-theme="white"] .panel,html[data-theme="white"] .listBtn,html[data-theme="white"] .miniBtn,html[data-theme="white"] input,html[data-theme="white"] textarea{
+  background:linear-gradient(145deg,#FAFCFE,#EEF6FC)!important;
+  color:#142236!important;
+  border-color:rgba(78,175,255,.55)!important;
+  box-shadow:0 12px 30px rgba(30,70,110,.12)!important;
+}
+html[data-theme="white"] .mutedSub,html[data-theme="white"] .qrCap,html[data-theme="white"] .footer,html[data-theme="white"] .privacy,html[data-theme="white"] .heroText,html[data-theme="white"] label{color:#53677F!important}
+html[data-theme="white"] .row span,html[data-theme="white"] .nm,html[data-theme="white"] .btn,html[data-theme="white"] .btn *{color:#142236!important}
+html[data-theme="white"] .role,html[data-theme="white"] .row i,html[data-theme="white"] .miniBtn .ico,html[data-theme="white"] .listBtn .ico,html[data-theme="white"] .goldText,html[data-theme="white"] .secTitle{color:#1E78B4!important}
+html[data-theme="white"] .pill,html[data-theme="white"] .lang-btn{background:linear-gradient(145deg,#FAFCFE,#EAF3FA)!important;color:#1E78B4!important}
+
+
+/* V3 FINAL BRAND + PEARL */
+.brandLogo{
+  width:min(62vw,260px);
+  display:block;
+  margin:0 auto 10px;
+  border-radius:28px;
+}
+.logoBox{margin-top:18px}
+html[data-theme="white"]{
+  --bg:#F3EFE8!important;
+  --bg2:#EAE1D2!important;
+  --panel:#FBF8F2!important;
+  --panel2:#F2EBDC!important;
+  --card:#FFFDF9!important;
+  --card2:#F8F1E6!important;
+  --text:#2C3440!important;
+  --muted:#6B7280!important;
+  --cardText:#2C3440!important;
+  --accent:#B89C63!important;
+  --accent-2:#CDB98D!important;
+  --accent-3:#E8DCC2!important;
+  --surface-border:rgba(184,156,99,.55)!important;
+}
+html[data-theme="white"] body{
+  background:
+    radial-gradient(800px 520px at 50% -15%, rgba(255,255,255,.72), transparent 60%),
+    linear-gradient(160deg,#F3EFE8,#EAE1D2 82%)!important;
+}
+html[data-theme="white"] .card,
+html[data-theme="white"] .qrWrap,
+html[data-theme="white"] .btn,
+html[data-theme="white"] .panel,
+html[data-theme="white"] .listBtn,
+html[data-theme="white"] .miniBtn,
+html[data-theme="white"] input,
+html[data-theme="white"] textarea{
+  background:linear-gradient(145deg,#FFFDF9,#F2EBDC)!important;
+  color:#2C3440!important;
+  border-color:rgba(184,156,99,.55)!important;
+  box-shadow:0 14px 32px rgba(88,72,45,.13)!important;
+}
+html[data-theme="white"] .row span,
+html[data-theme="white"] .nm,
+html[data-theme="white"] .btn,
+html[data-theme="white"] .btn *{
+  color:#2C3440!important;
+}
+html[data-theme="white"] .role,
+html[data-theme="white"] .row i,
+html[data-theme="white"] .miniBtn .ico,
+html[data-theme="white"] .listBtn .ico,
+html[data-theme="white"] .goldText,
+html[data-theme="white"] .secTitle,
+html[data-theme="white"] .brand,
+html[data-theme="white"] .subbrand{
+  color:#B89C63!important;
+}
+html[data-theme="white"] .mutedSub,
+html[data-theme="white"] .qrCap,
+html[data-theme="white"] .footer,
+html[data-theme="white"] .privacy,
+html[data-theme="white"] .heroText,
+html[data-theme="white"] label{
+  color:#6B7280!important;
+}
+html[data-theme="white"] .pill,
+html[data-theme="white"] .lang-btn{
+  background:linear-gradient(145deg,#FFFDF9,#F2EBDC)!important;
+  color:#2C3440!important;
+  border-color:rgba(184,156,99,.55)!important;
+}
+.shareIcon{
+  width:26px;
+  height:26px;
+  display:inline-block;
+  vertical-align:-6px;
+  color:var(--accent-3);
+  margin:0 4px;
+}
+.installStep svg.shareIcon{
+  flex:0 0 auto;
+}
+.card,.qrWrap,.btn,.miniBtn,.listBtn,.panel,.themeList,.themeItem,.installStep,input,textarea{
+  border-radius:22px!important;
+}
+#cardMount{margin-bottom:58px!important}
+
+
+/* ================= V4 OPTIMIZED FINAL ================= */
+:root{
+  --radius:22px;
+  --accent:#8FD3FF;
+  --accent2:#B7E7FF;
+  --accent3:#D9F4FF;
+  --border:rgba(143,211,255,.42);
+}
+html[data-theme="navy"]{--bg:#06111f;--bg2:#0b1728;--panel:#111f34;--panel2:#0c1728;--card:#10213a;--card2:#0a1628;--text:#f8f9fa;--muted:#9fb0c7;--cardText:#f8f9fa;--accent:#8FD3FF;--accent2:#B7E7FF;--accent3:#D9F4FF;--border:rgba(143,211,255,.42)}
+html[data-theme="black"]{--bg:#030507;--bg2:#0d1117;--panel:#11161d;--panel2:#070a0e;--card:#11161d;--card2:#06080b;--text:#f3f7fb;--muted:#a7b3c2;--cardText:#f3f7fb;--accent:#C7D6E8;--accent2:#E8EEF6;--accent3:#F5F8FC;--border:rgba(199,214,232,.44)}
+html[data-theme="emerald"]{--bg:#021713;--bg2:#052A23;--panel:#0A2B24;--panel2:#041C18;--card:#0B332B;--card2:#041C18;--text:#F3FFFB;--muted:#9DCEBE;--cardText:#F3FFFB;--accent:#4EF2B5;--accent2:#9FF8D9;--accent3:#D9FFF1;--border:rgba(78,242,181,.44)}
+html[data-theme="burgundy"]{--bg:#19050C;--bg2:#300A16;--panel:#35111C;--panel2:#18060D;--card:#3A111D;--card2:#17060C;--text:#FFF7FA;--muted:#D8A8B4;--cardText:#FFF7FA;--accent:#FF7A90;--accent2:#FFC0CC;--accent3:#FFE5EA;--border:rgba(255,122,144,.46)}
+html[data-theme="white"]{--bg:#F3EFE8;--bg2:#EAE1D2;--panel:#FBF8F2;--panel2:#F2EBDC;--card:#FFFDF9;--card2:#F8F1E6;--text:#2C3440;--muted:#6B7280;--cardText:#2C3440;--accent:#B89C63;--accent2:#CDB98D;--accent3:#E8DCC2;--border:rgba(184,156,99,.55)}
+body{background:radial-gradient(900px 650px at 50% -18%, color-mix(in srgb,var(--accent) 14%,transparent), transparent 62%),linear-gradient(160deg,var(--bg),var(--bg2) 82%)!important;color:var(--text)!important}
+.card,.qrWrap,.btn,.miniBtn,.listBtn,.panel,.themeList,.themeItem,.installStep,input,textarea{border-radius:var(--radius)!important}
+.card,.qrWrap,.btn,.btn.primary,.btn.ghost,.miniBtn,.listBtn,.panel,.themeList,.installStep,input,textarea{background:linear-gradient(145deg,var(--panel),var(--panel2))!important;color:var(--text)!important;border:1px solid var(--border)!important;box-shadow:0 12px 30px rgba(0,0,0,.20)!important}
+.card{background:linear-gradient(145deg,var(--card),var(--card2))!important;color:var(--cardText)!important;border:1.2px solid var(--border)!important}
+.avatar,.logoIcon{border-color:var(--accent)!important;color:var(--accent3)!important}
+.nm,.row span{color:var(--cardText)!important}
+.role,.row i,.miniBtn .ico,.listBtn .ico,.goldText,.secTitle,.tab.active,.activeNote,.brand,.check{color:var(--accent2)!important}
+.rule{background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 8%,transparent))!important}
+.divider{background:linear-gradient(90deg,transparent,var(--accent),transparent)!important}
+.divider:after{background:var(--accent2)!important;box-shadow:0 0 18px var(--accent2)!important}
+.btn.primary{background:linear-gradient(145deg,var(--panel),var(--panel2))!important;color:var(--text)!important}
+#cardMount{margin-bottom:60px!important}
+.qrTitleHidden{display:none!important}
+.qrWrap{width:min(100%,330px)!important;margin-top:0!important;box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 15%,transparent),0 20px 52px color-mix(in srgb,var(--accent) 10%,transparent),0 14px 38px rgba(0,0,0,.20)!important}
+.actionGrid{gap:12px!important}
+.actionGrid .btn{min-height:96px!important}
+.listBtn{min-height:96px!important;padding:17px 18px!important;display:flex!important;align-items:center!important;justify-content:space-between!important}
+.listBtn span:first-child{display:flex!important;align-items:center!important;gap:14px!important}
+.listBtn .ico{font-size:24px!important;line-height:1!important;width:28px;text-align:center;flex:0 0 28px}
+.listBtn [data-i="editData"],.listBtn [data-i="settings"],.listBtn [data-i="installGuide"]{font-size:20px!important;font-weight:800!important;line-height:1.2!important;color:var(--accent3)!important}
+.mutedSub{font-size:14px!important;line-height:1.25!important;color:var(--muted)!important}
+.pill,.lang-btn{color:var(--accent3)!important;border-color:var(--border)!important;background:linear-gradient(145deg,var(--panel),var(--panel2))!important}
+.lang-menu{border-color:var(--border)!important;background:linear-gradient(145deg,var(--panel),var(--panel2))!important}
+.lang-menu button.active,.lang-menu button:hover,.seg button.active{background:linear-gradient(145deg,var(--accent3),var(--accent))!important;color:#06111f!important}
+.themeItem.active .radio{border-color:var(--accent2)!important;box-shadow:inset 0 0 0 5px var(--panel),inset 0 0 0 20px var(--accent2)!important}
+.switch{background:linear-gradient(145deg,var(--accent3),var(--accent))!important}
+.num{border-color:var(--accent)!important;color:var(--accent2)!important}
+.brandLogo{width:min(62vw,260px);display:block;margin:0 auto 8px;border-radius:28px}.logoBox{margin-top:18px}.subbrand{display:none!important}
+.shareIcon{width:26px;height:26px;display:inline-block;vertical-align:-6px;color:var(--accent3);margin:0 4px}
+html[data-theme="white"] .card,html[data-theme="white"] .qrWrap,html[data-theme="white"] .btn,html[data-theme="white"] .panel,html[data-theme="white"] input,html[data-theme="white"] textarea{background:linear-gradient(145deg,#FFFDF9,#F2EBDC)!important;color:#2C3440!important;border-color:rgba(184,156,99,.55)!important;box-shadow:0 14px 32px rgba(88,72,45,.13)!important}
+html[data-theme="white"] .row span,html[data-theme="white"] .nm,html[data-theme="white"] .btn,html[data-theme="white"] .btn *{color:#2C3440!important}
+html[data-theme="white"] .role,html[data-theme="white"] .row i,html[data-theme="white"] .miniBtn .ico,html[data-theme="white"] .listBtn .ico,html[data-theme="white"] .goldText,html[data-theme="white"] .secTitle,html[data-theme="white"] .brand{color:#B89C63!important}
+html[data-theme="white"] .mutedSub,html[data-theme="white"] .qrCap,html[data-theme="white"] .footer,html[data-theme="white"] .privacy,html[data-theme="white"] .heroText,html[data-theme="white"] label{color:#6B7280!important}
+
+
+/* V5 FINAL: Logo A + simplified theme labels + Pearl contrast */
+.brandLogo{
+  width:min(58vw,230px)!important;
+  max-height:230px!important;
+  object-fit:contain!important;
+  display:block!important;
+  margin:0 auto 22px!important;
+  filter:drop-shadow(0 14px 34px rgba(143,211,255,.18));
+}
+.brand,.subbrand{display:none!important}
+
+/* Theme list labels: readable across all dark themes */
+.themeItem b{
+  color:var(--accent3)!important;
+  font-weight:800!important;
+}
+.themeItem .activeNote,
+.themeItem.active .activeNote{
+  color:var(--accent2)!important;
+}
+
+/* Pearl theme: champagne contrast instead of pale washed text */
+html[data-theme="white"] .themeItem b,
+html[data-theme="white"] .themeItem .activeNote,
+html[data-theme="white"] .themeItem.active .activeNote,
+html[data-theme="white"] .listBtn [data-i="editData"],
+html[data-theme="white"] .listBtn [data-i="settings"],
+html[data-theme="white"] .listBtn [data-i="installGuide"]{
+  color:#A6864E!important;
+}
+html[data-theme="white"] .themeItem,
+html[data-theme="white"] .themeList{
+  border-color:rgba(166,134,78,.58)!important;
+}
+html[data-theme="white"] .themeItem.active .radio{
+  border-color:#A6864E!important;
+  box-shadow:inset 0 0 0 5px #FBF8F2,inset 0 0 0 20px #A6864E!important;
+}
+html[data-theme="white"] .activeNote,
+html[data-theme="white"] .goldText,
+html[data-theme="white"] .secTitle{
+  color:#A6864E!important;
+}
+
+/* Theme preview swatches */
+.sw-white{
+  background:linear-gradient(145deg,#FFFDF9,#F2EBDC)!important;
+  border:1px solid #A6864E!important;
+}
+.sw-navy{background:#10213a!important}
+.sw-black{background:#05070a!important}
+.sw-emerald{background:#0B332B!important}
+.sw-burgundy{background:#3A111D!important}
+
+/* Keep all large row buttons visually aligned */
+.listBtn{
+  min-height:96px!important;
+  padding:17px 18px!important;
+}
+.listBtn [data-i="editData"],
+.listBtn [data-i="settings"],
+.listBtn [data-i="installGuide"]{
+  font-size:20px!important;
+  font-weight:800!important;
+  line-height:1.2!important;
+}
+
+</style>
+<link rel="preload" href="apple-share-icon.svg" as="image">
+
+<style id="v4-final-patch">
+.listBtn,.settingsBtn,.installBtn,.editBtn{
+  min-height:110px !important;
+  border-radius:22px !important;
+}
+.listBtn .title,.settingsBtn .title,.installBtn .title,.editBtn .title{
+  font-size:22px !important;
+  font-weight:700 !important;
+  line-height:1.2 !important;
+}
+.listBtn .subtitle,.settingsBtn .subtitle,.installBtn .subtitle,.editBtn .subtitle{
+  font-size:14px !important;
+  opacity:.85 !important;
+}
+</style>
+
+
+<style id="logo-revised-final-patch">
+.brandLogo{
+  width:min(54vw,220px)!important;
+  max-height:220px!important;
+  object-fit:contain!important;
+}
+</style>
+
+
+<style id="release-candidate-patch">
+/* Theme cards spacing */
+.themeItem{
+  margin-bottom:12px !important;
+}
+.themeList{
+  gap:12px !important;
+}
+
+/* Remove active theme subtitle for cleaner layout */
+.activeNote{
+  display:none !important;
+}
+
+/* Force equal heights */
+.themeItem{
+  min-height:88px !important;
+  align-items:center !important;
+}
+</style>
+
+
+<style id="theme-cards-final-fix">
+/* Theme list final polish: no outer group border, smaller cards, real spacing */
+.themeList{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:12px !important;
+  padding:0 !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  overflow:visible !important;
+}
+
+.themeItem{
+  margin:0 !important;
+  min-height:72px !important;
+  height:72px !important;
+  padding:12px 16px !important;
+  border-radius:22px !important;
+  border:1px solid var(--border, rgba(143,211,255,.42)) !important;
+  background:linear-gradient(145deg,var(--panel),var(--panel2)) !important;
+  box-shadow:0 8px 22px rgba(0,0,0,.16) !important;
+  align-items:center !important;
+}
+
+.themeItem .radio{
+  width:22px !important;
+  height:22px !important;
+  flex:0 0 22px !important;
+}
+
+.themeItem .swatch{
+  width:74px !important;
+  height:38px !important;
+  border-radius:10px !important;
+  flex:0 0 74px !important;
+}
+
+.themeItem b{
+  font-size:20px !important;
+  line-height:1.1 !important;
+}
+
+.themeItem .activeNote{
+  display:none !important;
+}
+
+/* Pearl theme contrast within settings list */
+html[data-theme="white"] .themeList{
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+
+html[data-theme="white"] .themeItem{
+  background:linear-gradient(145deg,#FFFDF9,#F2EBDC) !important;
+  border-color:rgba(166,134,78,.50) !important;
+}
+
+html[data-theme="white"] .themeItem b{
+  color:#A6864E !important;
+}
+</style>
+
+
+<style id="FINAL-RELEASE-PATCH">
+/* FINAL RELEASE PATCH */
+
+/* Logo */
+.brandLogo{
+  width:min(54vw,220px)!important;
+  max-height:220px!important;
+  object-fit:contain!important;
+  display:block!important;
+  margin:0 auto 22px!important;
+  filter:drop-shadow(0 14px 34px rgba(143,211,255,.16))!important;
+}
+.brand,.subbrand{display:none!important}
+
+/* Theme names: dark themes = white, Pearl theme = champagne */
+html:not([data-theme="white"]) .themeItem b{
+  color:#f8f9fa!important;
+}
+html:not([data-theme="white"]) .themeItem .activeNote{
+  display:none!important;
+}
+html[data-theme="white"] .themeItem b,
+html[data-theme="white"] .themeItem .activeNote,
+html[data-theme="white"] .listBtn [data-i="editData"],
+html[data-theme="white"] .listBtn [data-i="settings"],
+html[data-theme="white"] .listBtn [data-i="installGuide"],
+html[data-theme="white"] #startBtn [data-i="createCard"],
+html[data-theme="white"] #installFromStart [data-i="installGuide"]{
+  color:#A6864E!important;
+}
+
+/* Create card in Pearl must match Pearl headings */
+html[data-theme="white"] #startBtn,
+html[data-theme="white"] #installFromStart{
+  background:linear-gradient(145deg,#FFFDF9,#F2EBDC)!important;
+  border-color:rgba(166,134,78,.50)!important;
+  box-shadow:0 14px 32px rgba(88,72,45,.13)!important;
+}
+html[data-theme="white"] #startBtn .ico,
+html[data-theme="white"] #installFromStart .ico{
+  color:#A6864E!important;
+}
+
+/* Theme picker: no outer frame, smaller separated cards */
+.themeList{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:12px!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+}
+.themeItem{
+  margin:0!important;
+  min-height:72px!important;
+  height:72px!important;
+  padding:12px 16px!important;
+  border-radius:22px!important;
+  border:1px solid var(--border, rgba(143,211,255,.42))!important;
+  background:linear-gradient(145deg,var(--panel),var(--panel2))!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.16)!important;
+  align-items:center!important;
+}
+.themeItem .activeNote{display:none!important}
+.themeItem .radio{
+  width:22px!important;
+  height:22px!important;
+  flex:0 0 22px!important;
+}
+.themeItem .swatch{
+  width:74px!important;
+  height:38px!important;
+  border-radius:10px!important;
+  flex:0 0 74px!important;
+}
+.themeItem b{
+  font-size:20px!important;
+  line-height:1.1!important;
+}
+
+/* Pearl theme theme cards */
+html[data-theme="white"] .themeList{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+html[data-theme="white"] .themeItem{
+  background:linear-gradient(145deg,#FFFDF9,#F2EBDC)!important;
+  border-color:rgba(166,134,78,.50)!important;
+}
+html[data-theme="white"] .themeItem.active .radio{
+  border-color:#A6864E!important;
+  box-shadow:inset 0 0 0 5px #FBF8F2,inset 0 0 0 20px #A6864E!important;
+}
+.sw-white{
+  background:linear-gradient(145deg,#FFFDF9,#F2EBDC)!important;
+  border:1px solid #A6864E!important;
+}
+.sw-navy{background:#10213a!important}
+.sw-black{background:#05070a!important}
+.sw-emerald{background:#0B332B!important}
+.sw-burgundy{background:#3A111D!important}
+
+/* Large row buttons alignment */
+.listBtn{
+  min-height:96px!important;
+  padding:17px 18px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+}
+.listBtn span:first-child{
+  display:flex!important;
+  align-items:center!important;
+  gap:14px!important;
+}
+.listBtn .ico{
+  width:28px!important;
+  flex:0 0 28px!important;
+  text-align:center!important;
+  font-size:24px!important;
+}
+.listBtn [data-i="editData"],
+.listBtn [data-i="settings"],
+.listBtn [data-i="installGuide"]{
+  font-size:20px!important;
+  font-weight:800!important;
+  line-height:1.2!important;
+}
+
+/* Make sure old active note is hidden everywhere */
+.activeNote{display:none!important}
+</style>
+
+
+<style id="publish-final-theme-picker">
+/* Publish final: clean theme picker - selector + color preview only */
+.themeList{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:14px!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+}
+
+.themeItem{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:18px!important;
+  min-height:72px!important;
+  height:72px!important;
+  padding:12px 18px!important;
+  border-radius:22px!important;
+  border:1px solid var(--border, rgba(143,211,255,.42))!important;
+  background:linear-gradient(145deg,var(--panel),var(--panel2))!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.16)!important;
+}
+
+/* hide theme names, active subtitle and right checkmark */
+.themeItem b,
+.themeItem .activeNote,
+.themeItem > span:last-child{
+  display:none!important;
+}
+
+/* keep only selector and preview */
+.themeItem .radio{
+  width:24px!important;
+  height:24px!important;
+  flex:0 0 24px!important;
+  margin:0!important;
+}
+
+.themeItem .swatch{
+  width:190px!important;
+  height:42px!important;
+  border-radius:12px!important;
+  flex:0 0 190px!important;
+  margin:0!important;
+}
+
+/* remove empty text wrapper if present */
+.themeItem > span:not(.radio):not(.swatch):not(:last-child){
+  display:none!important;
+}
+
+/* active state only through left selector */
+.themeItem.active .radio{
+  border-color:var(--accent2, #B7E7FF)!important;
+  box-shadow:inset 0 0 0 5px var(--panel), inset 0 0 0 20px var(--accent2, #B7E7FF)!important;
+}
+
+/* Pearl theme */
+html[data-theme="white"] .themeItem{
+  background:linear-gradient(145deg,#FFFDF9,#F2EBDC)!important;
+  border-color:rgba(166,134,78,.50)!important;
+}
+html[data-theme="white"] .themeItem.active .radio{
+  border-color:#A6864E!important;
+  box-shadow:inset 0 0 0 5px #FBF8F2, inset 0 0 0 20px #A6864E!important;
+}
+.sw-white{
+  background:linear-gradient(145deg,#FFFDF9,#F2EBDC)!important;
+  border:1px solid #A6864E!important;
+}
+.sw-navy{background:#10213a!important}
+.sw-black{background:#05070a!important}
+.sw-emerald{background:#0B332B!important}
+.sw-burgundy{background:#3A111D!important}
+
+@media(max-width:390px){
+  .themeItem .swatch{
+    width:160px!important;
+  }
+}
+</style>
+
+
+<style id="publish-theme-row-colors-final">
+/* Final theme picker: entire row is the theme preview */
+.themeList{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:14px!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+}
+
+.themeItem{
+  position:relative!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:18px!important;
+  min-height:72px!important;
+  height:72px!important;
+  padding:12px 18px!important;
+  border-radius:22px!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.16)!important;
+}
+
+/* show theme name again, hide subtitle and right checkmark */
+.themeItem b{
+  display:block!important;
+  font-size:22px!important;
+  font-weight:800!important;
+  line-height:1.1!important;
+}
+.themeItem .activeNote,
+.themeItem > span:last-child{
+  display:none!important;
+}
+
+/* hide old inner swatch completely */
+.themeItem .swatch{
+  display:none!important;
+}
+
+/* selector */
+.themeItem .radio{
+  width:24px!important;
+  height:24px!important;
+  flex:0 0 24px!important;
+  margin:0!important;
+}
+
+/* color whole rows based on swatch class inside */
+.themeItem:has(.sw-navy){
+  background:linear-gradient(145deg,#10213a,#0a1628)!important;
+  border:1px solid rgba(143,211,255,.42)!important;
+}
+.themeItem:has(.sw-black){
+  background:linear-gradient(145deg,#11161d,#05070a)!important;
+  border:1px solid rgba(199,214,232,.42)!important;
+}
+.themeItem:has(.sw-white){
+  background:linear-gradient(145deg,#FFFDF9,#F2EBDC)!important;
+  border:1px solid rgba(166,134,78,.52)!important;
+}
+.themeItem:has(.sw-emerald){
+  background:linear-gradient(145deg,#0B332B,#041C18)!important;
+  border:1px solid rgba(78,242,181,.42)!important;
+}
+.themeItem:has(.sw-burgundy){
+  background:linear-gradient(145deg,#3A111D,#17060C)!important;
+  border:1px solid rgba(255,122,144,.42)!important;
+}
+
+/* text colors per row */
+.themeItem:has(.sw-navy) b,
+.themeItem:has(.sw-black) b,
+.themeItem:has(.sw-emerald) b,
+.themeItem:has(.sw-burgundy) b{
+  color:#f8f9fa!important;
+}
+.themeItem:has(.sw-white) b{
+  color:#A6864E!important;
+}
+
+/* active selector only; no right checkmark */
+.themeItem.active .radio{
+  border-color:var(--accent2, #B7E7FF)!important;
+  box-shadow:inset 0 0 0 5px var(--panel), inset 0 0 0 20px var(--accent2, #B7E7FF)!important;
+}
+html[data-theme="white"] .themeItem.active .radio{
+  border-color:#A6864E!important;
+  box-shadow:inset 0 0 0 5px #FBF8F2, inset 0 0 0 20px #A6864E!important;
+}
+
+/* radio contrast per row */
+.themeItem:has(.sw-white) .radio{
+  border-color:#6B7280!important;
+}
+.themeItem:has(.sw-navy) .radio,
+.themeItem:has(.sw-black) .radio,
+.themeItem:has(.sw-emerald) .radio,
+.themeItem:has(.sw-burgundy) .radio{
+  border-color:rgba(217,244,255,.78)!important;
+}
+
+/* fallback if :has unsupported: show text and remove inner box */
+@supports not selector(:has(*)){
+  .themeItem .swatch{display:none!important}
+  .themeItem b{display:block!important;color:#f8f9fa!important}
+}
+</style>
+
+
+<style id="theme-rows-compact-preview">
+/* Compact final theme picker preview */
+.themeList{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:10px!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+}
+
+.themeItem{
+  position:relative!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:14px!important;
+  min-height:56px!important;
+  height:56px!important;
+  padding:8px 16px!important;
+  border-radius:18px!important;
+  box-shadow:0 6px 18px rgba(0,0,0,.14)!important;
+}
+
+/* show theme name, hide subtitle and right checkmark */
+.themeItem b{
+  display:block!important;
+  font-size:18px!important;
+  font-weight:800!important;
+  line-height:1.1!important;
+}
+.themeItem .activeNote,
+.themeItem > span:last-child{
+  display:none!important;
+}
+
+/* hide inner swatch */
+.themeItem .swatch{
+  display:none!important;
+}
+
+/* smaller selector */
+.themeItem .radio{
+  width:20px!important;
+  height:20px!important;
+  flex:0 0 20px!important;
+  margin:0!important;
+}
+
+/* full-row theme colors */
+.themeItem:has(.sw-navy){
+  background:linear-gradient(145deg,#10213a,#0a1628)!important;
+  border:1px solid rgba(143,211,255,.42)!important;
+}
+.themeItem:has(.sw-black){
+  background:linear-gradient(145deg,#11161d,#05070a)!important;
+  border:1px solid rgba(199,214,232,.42)!important;
+}
+.themeItem:has(.sw-white){
+  background:linear-gradient(145deg,#FFFDF9,#F2EBDC)!important;
+  border:1px solid rgba(166,134,78,.52)!important;
+}
+.themeItem:has(.sw-emerald){
+  background:linear-gradient(145deg,#0B332B,#041C18)!important;
+  border:1px solid rgba(78,242,181,.42)!important;
+}
+.themeItem:has(.sw-burgundy){
+  background:linear-gradient(145deg,#3A111D,#17060C)!important;
+  border:1px solid rgba(255,122,144,.42)!important;
+}
+
+/* row text contrast */
+.themeItem:has(.sw-navy) b,
+.themeItem:has(.sw-black) b,
+.themeItem:has(.sw-emerald) b,
+.themeItem:has(.sw-burgundy) b{
+  color:#f8f9fa!important;
+}
+.themeItem:has(.sw-white) b{
+  color:#A6864E!important;
+}
+
+/* active indicator only on selector */
+.themeItem.active .radio{
+  border-color:var(--accent2, #B7E7FF)!important;
+  box-shadow:inset 0 0 0 4px var(--panel), inset 0 0 0 20px var(--accent2, #B7E7FF)!important;
+}
+html[data-theme="white"] .themeItem.active .radio{
+  border-color:#A6864E!important;
+  box-shadow:inset 0 0 0 4px #FBF8F2, inset 0 0 0 20px #A6864E!important;
+}
+
+/* radio contrast */
+.themeItem:has(.sw-white) .radio{
+  border-color:#6B7280!important;
+}
+.themeItem:has(.sw-navy) .radio,
+.themeItem:has(.sw-black) .radio,
+.themeItem:has(.sw-emerald) .radio,
+.themeItem:has(.sw-burgundy) .radio{
+  border-color:rgba(217,244,255,.78)!important;
+}
+</style>
+
+
+<style id="theme-picker-color-fix">
+/* Each theme row must show its OWN colour, even when the Pearl (white) theme is active.
+   The html[data-theme="white"] .themeItem overrides (0,2,1) were out-specifying the per-row
+   .themeItem:has(.sw-*) colours (0,2,0); scoping under #themeList (id) makes the row colours win. */
+#themeList .themeItem:has(.sw-navy){background:linear-gradient(145deg,#10213a,#0a1628)!important;border:1px solid rgba(143,211,255,.42)!important}
+#themeList .themeItem:has(.sw-black){background:linear-gradient(145deg,#11161d,#05070a)!important;border:1px solid rgba(199,214,232,.42)!important}
+#themeList .themeItem:has(.sw-white){background:linear-gradient(145deg,#FFFDF9,#F2EBDC)!important;border:1px solid rgba(166,134,78,.52)!important}
+#themeList .themeItem:has(.sw-emerald){background:linear-gradient(145deg,#0B332B,#041C18)!important;border:1px solid rgba(78,242,181,.42)!important}
+#themeList .themeItem:has(.sw-burgundy){background:linear-gradient(145deg,#3A111D,#17060C)!important;border:1px solid rgba(255,122,144,.42)!important}
+#themeList .themeItem:has(.sw-navy) b,
+#themeList .themeItem:has(.sw-black) b,
+#themeList .themeItem:has(.sw-emerald) b,
+#themeList .themeItem:has(.sw-burgundy) b{color:#f8f9fa!important}
+#themeList .themeItem:has(.sw-white) b{color:#A6864E!important}
+#themeList .themeItem:has(.sw-white) .radio{border-color:#6B7280!important}
+#themeList .themeItem:has(.sw-navy) .radio,
+#themeList .themeItem:has(.sw-black) .radio,
+#themeList .themeItem:has(.sw-emerald) .radio,
+#themeList .themeItem:has(.sw-burgundy) .radio{border-color:rgba(217,244,255,.78)!important}
+/* active selector dot: light on dark rows, gold on the Pearl row */
+#themeList .themeItem.active .radio{border-color:var(--accent2,#B7E7FF)!important;box-shadow:inset 0 0 0 4px var(--panel,#0b1a2f), inset 0 0 0 20px var(--accent2,#B7E7FF)!important}
+#themeList .themeItem:has(.sw-white).active .radio{border-color:#A6864E!important;box-shadow:inset 0 0 0 4px #FBF8F2, inset 0 0 0 20px #A6864E!important}
+/* Restore the theme name label: an older picker design hid the name wrapper span (display:none);
+   the later "show name" blocks only un-hid the <b>, not its parent, so labels disappeared. */
+#themeList .themeItem > span:not(.radio):not(.swatch):not(:last-child){display:flex!important;flex-direction:column!important;justify-content:center!important;flex:1 1 auto!important;text-align:left!important}
+#themeList .themeItem b{display:block!important}
+</style>
+
+<style id="home-buttons-compact">
+#startBtn,
+#installFromStart{
+min-height:56px!important;
+height:56px!important;
+padding:0 18px!important;
+border-radius:18px!important;
+margin:0!important;
+}
+#installFromStart{
+margin-top:12px!important;
+}
+#startBtn .ico,
+#installFromStart .ico{
+font-size:20px!important;
+width:20px!important;
+}
+#startBtn [data-i],
+#installFromStart [data-i]{
+font-size:18px!important;
+font-weight:700!important;
+}
+</style>
+
+
+
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="lang-wrap">
+      <button id="langBtn" class="pill" type="button">🌐 🇬🇧 EN ▼</button>
+      <div id="langMenu" class="lang-menu" hidden></div>
+    </div>
+  </div>
+
+  <main id="onboarding" hidden>
+    <section class="logoBox">
+      <img class="brandLogo" src="vizitka-logo-ice.png" alt="Vizitka logo"></section>
+    <h1 class="heroTitle" data-i-html="heroTitle">Digitalna posjetnica<br>u jednom <em>QR</em> kodu.</h1>
+    <div class="divider"></div>
+    <p class="heroText" data-i="heroText">Unesi svoje podatke jednom. Podijeli ih QR kodom, .vcf datotekom ili spremi aplikaciju na početni zaslon.</p>
+    <button class="btn primary big" id="startBtn"><span><span class="ico">▣</span> <span data-i="createCard">Kreiraj posjetnicu</span></span><span>›</span></button>
+    <button class="btn ghost big" id="installFromStart"><span><span class="ico">▯</span> <span data-i="installGuide">Upute za instalaciju</span></span><span>›</span></button>
+    <p class="privacy"><b>🔒</b> <span data-i="privacy">Podaci ostaju samo na tvom uređaju. Ne šalju se nikome.</span></p>
+  </main>
+
+  <main id="home" hidden>
+    <section id="cardMount"></section>
+    <div class="secTitle qrTitleHidden" data-i="myQr">Moj QR kod</div>
+    <div class="qrWrap"><div id="qrcode"></div></div>
+    <p class="qrCap" data-i="qrCap">Spremi kontakt jednim skeniranjem.</p>
+    <div class="actionGrid">
+      <button class="btn miniBtn" id="btnPng"><span class="ico">⇩</span><span data-i="downloadQr">Preuzmi QR</span><span class="goldText">(PNG)</span></button>
+      <button class="btn miniBtn" id="btnVcf"><span class="ico">▣</span><span data-i="downloadVcf">Preuzmi .vcf</span><span class="goldText" data-i="contact">Kontakt</span></button>
+      <button class="btn miniBtn" id="btnShare"><span class="ico">⌯</span><span data-i="share">Podijeli</span><span class="goldText" data-i="shareSub">Vizitku</span></button>
+    </div>
+    <button class="btn primary big listBtn" id="editBtn"><span><span class="ico">✎</span><span><span data-i="editData">Uredi posjetnicu</span><div class="mutedSub" data-i="editSub">Promijeni podatke posjetnice</div></span></span><span>›</span></button>
+    <button class="btn listBtn" id="settingsBtn"><span><span class="ico">⚙</span><span><span data-i="settings">Postavke</span><div class="mutedSub" data-i="settingsSub">Jezik, izgled kartice i ostalo</div></span></span><span>›</span></button>
+    <button class="btn ghost listBtn" id="installBtn"><span><span class="ico">▯</span><span><span data-i="installGuide">Upute za instalaciju</span><div class="mutedSub" data-i="installSub">Dodaj na početni zaslon</div></span></span><span>›</span></button>
+    <p class="footer">🔒 <span data-i="privacy2">Podaci ostaju kod tebe — spremaju se uz ovu aplikaciju i ne šalju se nikome.</span></p>
+  </main>
+
+  <main id="edit" hidden>
+    <div class="screenHead"><button class="back" id="editBack">‹</button><h2 data-i="editData">Uredi posjetnicu</h2><span></span></div>
+    <div class="tabs">
+      <button class="tab active" data-step="0"><b>☻</b><span data-i="personal">Osobni</span></button>
+      <button class="tab" data-step="1"><b>▣</b><span data-i="contactData">Kontakt</span></button>
+      <button class="tab" data-step="2"><b>▤</b><span data-i="company">Tvrtka</span></button>
+      <button class="tab" data-step="3"><b>↗</b><span data-i="web">Web</span></button>
+      <button class="tab" data-step="4"><b>★</b><span data-i="preview">Pregled</span></button>
+    </div>
+    <section class="panel editStep" data-panel="0">
+      <div class="field"><label data-i="firstName">Ime</label><input id="firstName" placeholder=""></div>
+      <div class="field"><label data-i="lastName">Prezime</label><input id="lastName" placeholder=""></div>
+      <div class="field"><label data-i="position">Pozicija / Titula</label><input id="position" placeholder=""></div>
+      <div class="field"><label data-i="description">Opis (opcionalno)</label><textarea id="description" maxlength="120" placeholder=""></textarea></div>
+      <div class="navRow single"><button class="btn primary nextStep" data-next="1"><span data-i="next">Dalje</span><span>→</span></button></div>
+    </section>
+    <section class="panel editStep" data-panel="1" hidden>
+      <div class="field"><label data-i="phone">Telefon</label><input id="phone" type="tel" placeholder=""></div>
+      <div class="field"><label data-i="email">E-mail</label><input id="email" type="email" placeholder=""></div>
+      <div class="field"><label data-i="website">Web stranica</label><input id="website" placeholder=""></div>
+      <div class="field"><label data-i="address">Adresa</label><input id="address" placeholder=""></div>
+      <div class="navRow"><button class="btn ghost prevStep" data-prev="0">← <span data-i="back">Nazad</span></button><button class="btn primary nextStep" data-next="2"><span data-i="next">Dalje</span> →</button></div>
+    </section>
+    <section class="panel editStep" data-panel="2" hidden>
+      <div class="field"><label data-i="company">Tvrtka</label><input id="companyName" placeholder=""></div>
+      <div class="field"><label data-i="department">Odjel / dodatni opis</label><input id="department" placeholder=""></div>
+      <div class="toggleRow"><span data-i="showCompany">Prikaži tvrtku na posjetnici</span><span class="switch"></span></div>
+      <div class="navRow"><button class="btn ghost prevStep" data-prev="1">← <span data-i="back">Nazad</span></button><button class="btn primary nextStep" data-next="3"><span data-i="next">Dalje</span> →</button></div>
+    </section>
+    <section class="panel editStep" data-panel="3" hidden>
+      <div class="field"><label>LinkedIn</label><input id="linkedin" placeholder=""></div>
+      <div class="field"><label>Instagram</label><input id="instagram" placeholder=""></div>
+      <div class="field"><label data-i="extraField">Dodatno polje</label><input id="extra" placeholder=""></div>
+      <div class="navRow"><button class="btn ghost prevStep" data-prev="2">← <span data-i="back">Nazad</span></button><button class="btn primary nextStep" data-next="4"><span data-i="preview">Pregled</span> →</button></div>
+    </section>
+    <section class="panel editStep" data-panel="4" hidden>
+      <div id="previewMount"></div>
+      <button class="btn listBtn" id="changeThemeInEdit"><span>🎨 <span data-i="selectedTheme">Odabrana tema</span><br><span class="mutedSub" id="themeNameEdit">Navy</span></span><span data-i="change">Promijeni ›</span></button>
+      <div class="navRow"><button class="btn ghost prevStep" data-prev="3">← <span data-i="back">Nazad</span></button><button class="btn primary" id="saveBtn"><span data-i="save">Spremi</span> →</button></div>
+    </section>
+  </main>
+
+  <main id="settings" hidden>
+    <div class="panel">
+      <div class="screenHead"><h2>⚙ <span data-i="settings">Postavke</span></h2><button class="close" id="settingsClose">×</button></div>
+      <p class="mutedSub" data-i="settingsIntro">Prilagodi aplikaciju svojim željama.</p>
+      <div class="secTitle" style="text-align:left" data-i="language">Jezik</div>
+      <button class="btn listBtn" id="settingsLangBtn"><span>🌐 <span data-i="appLanguage">Jezik aplikacije</span></span><span id="settingsLangText">HR</span></button>
+      <div class="secTitle" style="text-align:left" data-i="cardLook">Izgled kartice</div>
+      <p class="mutedSub" data-i="themeHelp">Odaberi temu svoje digitalne posjetnice.</p>
+      <div class="themeList" id="themeList"></div>
+      <div class="toggleRow"><span>🌙 <span data-i="darkMode">Prilagodi tamnom načinu rada</span><div class="mutedSub" data-i="darkModeSub">Automatski prilagodi boje sustavu</div></span><span class="switch"></span></div>
+      <div class="secTitle" style="text-align:left" data-i="other">Ostalo</div>
+      <button class="btn listBtn" id="installFromSettings"><span>▯ <span data-i="installGuide">Upute za instalaciju</span></span><span>›</span></button>
+      <button class="btn listBtn danger" id="resetBtn"><span>🗑 <span data-i="deleteAll">Obriši sve podatke</span></span><span>›</span></button>
+    </div>
+  </main>
+
+  <main id="install" hidden>
+    <div class="panel">
+      <div class="screenHead"><h2 data-i="installGuide">Upute za instalaciju</h2><button class="close" id="installClose">×</button></div>
+      <p class="mutedSub" data-i="installIntro">Dodaj aplikaciju na početni zaslon za brzi pristup.</p>
+      <div class="seg"><button id="iosTab" class="active">iPhone (iOS)</button><button id="androidTab">Android</button></div>
+      <div id="iosSteps"></div><div id="androidSteps" hidden></div>
+      <p class="mutedSub" style="margin:24px 0" data-i="installAfter">Nakon instalacije, aplikaciji možeš pristupiti kao običnoj aplikaciji — bez preglednika.</p>
+      <button class="btn primary big" id="installDone"><span data-i="close">Zatvori</span><span>›</span></button>
+    </div>
+  </main>
+
+  <main id="success" hidden class="success">
+    <div>
+      <h2 data-i="savedTitle">Podaci spremljeni!</h2>
+      <div class="check">✓</div>
+      <p class="mutedSub" data-i="savedText">Tvoja digitalna posjetnica je spremna.</p>
+      <p class="mutedSub">✓ <span data-i="savedP1">Svi podaci su spremljeni samo na tvom uređaju.</span></p>
+      <p class="mutedSub">✓ <span data-i="savedP2">Možeš ih jednostavno urediti.</span></p>
+      <p class="mutedSub">✓ <span data-i="savedP3">Podijeli QR kodom ili .vcf datotekom.</span></p>
+      <button class="btn primary big" id="goHome"><span data-i="goToCard">Idi na posjetnicu</span><span>›</span></button>
+    </div>
+  </main>
+</div>
+
+<script>
+
+/* === Ugradjeni QR generator (vlastiti, validiran do razine bita; UTF-8/dijakritike) === */
+var QR_TABLES = {"maxV": {"L": 40, "M": 40}, "T": {"L": [[26, 1, 7], [44, 1, 10], [70, 1, 15], [100, 1, 20], [134, 1, 26], [172, 2, 18], [196, 2, 20], [242, 2, 24], [292, 2, 30], [346, 4, 18], [404, 4, 20], [466, 4, 24], [532, 4, 26], [581, 4, 30], [655, 6, 22], [733, 6, 24], [815, 6, 28], [901, 6, 30], [991, 7, 28], [1085, 8, 28], [1156, 8, 28], [1258, 9, 28], [1364, 9, 30], [1474, 10, 30], [1588, 12, 26], [1706, 12, 28], [1828, 12, 30], [1921, 13, 30], [2051, 14, 30], [2185, 15, 30], [2323, 16, 30], [2465, 17, 30], [2611, 18, 30], [2761, 19, 30], [2876, 19, 30], [3034, 20, 30], [3196, 21, 30], [3362, 22, 30], [3532, 24, 30], [3706, 25, 30]], "M": [[26, 1, 10], [44, 1, 16], [70, 1, 26], [100, 2, 18], [134, 2, 24], [172, 4, 16], [196, 4, 18], [242, 4, 22], [292, 5, 22], [346, 5, 26], [404, 5, 30], [466, 8, 22], [532, 9, 22], [581, 9, 24], [655, 10, 24], [733, 10, 28], [815, 11, 28], [901, 13, 26], [991, 14, 26], [1085, 16, 26], [1156, 17, 26], [1258, 17, 28], [1364, 18, 28], [1474, 20, 28], [1588, 21, 28], [1706, 23, 28], [1828, 25, 28], [1921, 26, 28], [2051, 28, 28], [2185, 29, 28], [2323, 31, 28], [2465, 33, 28], [2611, 35, 28], [2761, 37, 28], [2876, 38, 28], [3034, 40, 28], [3196, 43, 28], [3362, 45, 28], [3532, 47, 28], [3706, 49, 28]]}};
+var QRMatrix = (function () {
+  'use strict';
+
+  var EXP = new Array(512), LOG = new Array(256);
+  (function () {
+    var x = 1;
+    for (var i = 0; i < 255; i++) { EXP[i] = x; LOG[x] = i; x <<= 1; if (x & 0x100) x ^= 0x11D; }
+    for (var j = 255; j < 512; j++) EXP[j] = EXP[j - 255];
+  })();
+  function gmul(a, b) { if (a === 0 || b === 0) return 0; return EXP[LOG[a] + LOG[b]]; }
+
+  function genPoly(ec) {
+    var g = [1];
+    for (var i = 0; i < ec; i++) {
+      var ng = new Array(g.length + 1);
+      for (var k = 0; k < ng.length; k++) ng[k] = 0;
+      for (var j = 0; j < g.length; j++) {
+        ng[j] ^= g[j];
+        ng[j + 1] ^= gmul(g[j], EXP[i]);
+      }
+      g = ng;
+    }
+    return g;
+  }
+
+  function rsRemainder(data, ec) {
+    var g = genPoly(ec);
+    var rem = data.slice();
+    for (var z = 0; z < ec; z++) rem.push(0);
+    for (var i = 0; i < data.length; i++) {
+      var f = rem[i];
+      if (f !== 0) {
+        for (var j = 1; j < g.length; j++) rem[i + j] ^= gmul(g[j], f);
+      }
+    }
+    return rem.slice(data.length);
+  }
+
+  function toUTF8(str) {
+    var out = [];
+    for (var i = 0; i < str.length; i++) {
+      var c = str.charCodeAt(i);
+      if (c >= 0xD800 && c <= 0xDBFF && i + 1 < str.length) {
+        var c2 = str.charCodeAt(i + 1);
+        if (c2 >= 0xDC00 && c2 <= 0xDFFF) { c = 0x10000 + ((c - 0xD800) << 10) + (c2 - 0xDC00); i++; }
+      }
+      if (c < 0x80) out.push(c);
+      else if (c < 0x800) { out.push(0xC0 | (c >> 6), 0x80 | (c & 63)); }
+      else if (c < 0x10000) { out.push(0xE0 | (c >> 12), 0x80 | ((c >> 6) & 63), 0x80 | (c & 63)); }
+      else { out.push(0xF0 | (c >> 18), 0x80 | ((c >> 12) & 63), 0x80 | ((c >> 6) & 63), 0x80 | (c & 63)); }
+    }
+    return out;
+  }
+
+  function levelRow(level, version) { return QR_TABLES.T[level][version - 1]; }
+  function dataCapacity(version, level) { var t = levelRow(level, version); return t[0] - t[1] * t[2]; }
+  function ccBits(version) { return version <= 9 ? 8 : 16; }
+  function fitsIn(version, level, nBytes) { return 4 + ccBits(version) + 8 * nBytes <= dataCapacity(version, level) * 8; }
+  function pickVersion(nBytes, level) {
+    var mv = QR_TABLES.maxV[level];
+    for (var v = 1; v <= mv; v++) if (fitsIn(v, level, nBytes)) return v;
+    return 0;
+  }
+  function maxBytes() {
+    var mvL = QR_TABLES.maxV.L;
+    return Math.floor((dataCapacity(mvL, 'L') * 8 - 20) / 8);
+  }
+
+  function alignPositions(version) {
+    if (version === 1) return [];
+    var n = Math.floor(version / 7) + 2;
+    var step = version === 32 ? 26 : Math.floor((version * 4 + n * 2 + 1) / (n * 2 - 2)) * 2;
+    var size = 17 + 4 * version;
+    var pos = [6];
+    var p = size - 7;
+    for (var i = 0; i < n - 1; i++) { pos.push(p); p -= step; }
+    pos.sort(function (a, b) { return a - b; });
+    return pos;
+  }
+
+  function buildCodewords(bytes, version, level) {
+    var t = levelRow(level, version);
+    var total = t[0], nb = t[1], ec = t[2];
+    var dataTotal = total - nb * ec;
+    var capBits = dataTotal * 8;
+    var bits = [];
+    function put(num, len) { for (var i = len - 1; i >= 0; i--) bits.push((num >>> i) & 1); }
+    put(4, 4);
+    put(bytes.length, ccBits(version));
+    for (var i = 0; i < bytes.length; i++) put(bytes[i], 8);
+    var term = Math.min(4, capBits - bits.length);
+    for (var q = 0; q < term; q++) bits.push(0);
+    while (bits.length % 8 !== 0) bits.push(0);
+    var toggle = true;
+    while (bits.length < capBits) { put(toggle ? 0xEC : 0x11, 8); toggle = !toggle; }
+    var data = [];
+    for (var b = 0; b < bits.length; b += 8) {
+      var by = 0;
+      for (var k = 0; k < 8; k++) by = (by << 1) | bits[b + k];
+      data.push(by);
+    }
+    var shortLen = Math.floor(dataTotal / nb);
+    var nLong = dataTotal % nb;
+    var nShort = nb - nLong;
+    var dataBlocks = [], ecBlocks = [], pos = 0, maxData = 0;
+    for (var bi = 0; bi < nb; bi++) {
+      var dlen = bi < nShort ? shortLen : shortLen + 1;
+      var db = data.slice(pos, pos + dlen);
+      pos += dlen;
+      if (dlen > maxData) maxData = dlen;
+      dataBlocks.push(db);
+      ecBlocks.push(rsRemainder(db, ec));
+    }
+    var out = [];
+    for (var di = 0; di < maxData; di++) {
+      for (var b1 = 0; b1 < nb; b1++) if (di < dataBlocks[b1].length) out.push(dataBlocks[b1][di]);
+    }
+    for (var ei = 0; ei < ec; ei++) {
+      for (var b2 = 0; b2 < nb; b2++) out.push(ecBlocks[b2][ei]);
+    }
+    return out;
+  }
+
+  function Matrix(size) {
+    this.size = size;
+    this.m = new Uint8Array(size * size);
+    this.f = new Uint8Array(size * size);
+  }
+  Matrix.prototype.set = function (r, c, dark, func) {
+    var i = r * this.size + c;
+    this.m[i] = dark ? 1 : 0;
+    if (func) this.f[i] = 1;
+  };
+  Matrix.prototype.get = function (r, c) { return this.m[r * this.size + c]; };
+  Matrix.prototype.isF = function (r, c) { return this.f[r * this.size + c]; };
+
+  function stampFinders(mx) {
+    var size = mx.size;
+    var origins = [[0, 0], [0, size - 7], [size - 7, 0]];
+    for (var o = 0; o < 3; o++) {
+      var or0 = origins[o][0], oc = origins[o][1];
+      for (var r = -1; r <= 7; r++) {
+        for (var c = -1; c <= 7; c++) {
+          var rr = or0 + r, cc = oc + c;
+          if (rr < 0 || cc < 0 || rr >= size || cc >= size) continue;
+          var dark = (r >= 0 && r <= 6 && c >= 0 && c <= 6) &&
+                     (r === 0 || r === 6 || c === 0 || c === 6 || (r >= 2 && r <= 4 && c >= 2 && c <= 4));
+          mx.set(rr, cc, dark, true);
+        }
+      }
+    }
+  }
+  function stampTiming(mx) {
+    for (var i = 8; i < mx.size - 8; i++) {
+      var dark = i % 2 === 0;
+      if (!mx.isF(6, i)) mx.set(6, i, dark, true);
+      if (!mx.isF(i, 6)) mx.set(i, 6, dark, true);
+    }
+  }
+  function stampAlign(mx, version) {
+    var pos = alignPositions(version);
+    var size = mx.size;
+    for (var a = 0; a < pos.length; a++) {
+      for (var b = 0; b < pos.length; b++) {
+        var p = pos[a], q = pos[b];
+        if ((p < 9 && q < 9) || (p < 9 && q > size - 10) || (p > size - 10 && q < 9)) continue;
+        for (var r = -2; r <= 2; r++) {
+          for (var c = -2; c <= 2; c++) {
+            var dark = Math.max(Math.abs(r), Math.abs(c)) !== 1;
+            mx.set(p + r, q + c, dark, true);
+          }
+        }
+      }
+    }
+  }
+  function reserveFormat(mx) {
+    var size = mx.size;
+    for (var i = 0; i <= 8; i++) {
+      if (i !== 6) {
+        if (!mx.isF(8, i)) mx.set(8, i, 0, true);
+        if (!mx.isF(i, 8)) mx.set(i, 8, 0, true);
+      }
+    }
+    for (var j = 0; j < 8; j++) {
+      if (!mx.isF(8, size - 1 - j)) mx.set(8, size - 1 - j, 0, true);
+      if (!mx.isF(size - 1 - j, 8)) mx.set(size - 1 - j, 8, 0, true);
+    }
+    mx.f[(size - 8) * size + 8] = 1;
+  }
+  function stampVersionInfo(mx, version) {
+    if (version < 7) return;
+    var d = version << 12;
+    for (var i = 17; i >= 12; i--) { if ((d >>> i) & 1) d ^= 0x1F25 << (i - 12); }
+    var bits = (version << 12) | d;
+    var size = mx.size;
+    for (var k = 0; k < 18; k++) {
+      var bit = (bits >>> k) & 1;
+      var a = size - 11 + (k % 3), b = Math.floor(k / 3);
+      mx.set(a, b, bit, true);
+      mx.set(b, a, bit, true);
+    }
+  }
+  var EC_BITS = { L: 1, M: 0, Q: 3, H: 2 };
+  function stampFormat(mx, level, mask) {
+    var data5 = (EC_BITS[level] << 3) | mask;
+    var d = data5 << 10;
+    for (var i = 14; i >= 10; i--) { if ((d >>> i) & 1) d ^= 0x537 << (i - 10); }
+    var bits = ((data5 << 10) | d) ^ 0x5412;
+    var size = mx.size;
+    function bit(k) { return (bits >>> k) & 1; }
+
+    // Ispravan raspored QR format bitova po specifikaciji.
+    // Bitno: stara verzija ih je crtala transponirano pa neki skeneri nisu čitali QR.
+    for (var v = 0; v < 15; v++) {
+      if (v < 6) mx.set(v, 8, bit(v), true);
+      else if (v < 8) mx.set(v + 1, 8, bit(v), true);
+      else mx.set(size - 15 + v, 8, bit(v), true);
+    }
+
+    for (var h = 0; h < 15; h++) {
+      if (h < 8) mx.set(8, size - h - 1, bit(h), true);
+      else if (h === 8) mx.set(8, 7, bit(h), true);
+      else mx.set(8, 14 - h, bit(h), true);
+    }
+
+    mx.set(size - 8, 8, 1, true);
+  }
+  function maskBit(mask, r, c) {
+    switch (mask) {
+      case 0: return (r + c) % 2 === 0;
+      case 1: return r % 2 === 0;
+      case 2: return c % 3 === 0;
+      case 3: return (r + c) % 3 === 0;
+      case 4: return (Math.floor(r / 2) + Math.floor(c / 3)) % 2 === 0;
+      case 5: return (r * c) % 2 + (r * c) % 3 === 0;
+      case 6: return ((r * c) % 2 + (r * c) % 3) % 2 === 0;
+      default: return (((r + c) % 2) + ((r * c) % 3)) % 2 === 0;
+    }
+  }
+  function placeData(mx, codewords, mask) {
+    var size = mx.size;
+    var bitIdx = 0, totalBits = codewords.length * 8;
+    var upward = true;
+    for (var col = size - 1; col > 0; col -= 2) {
+      if (col === 6) col--;
+      for (var i = 0; i < size; i++) {
+        var r = upward ? size - 1 - i : i;
+        for (var dc = 0; dc < 2; dc++) {
+          var c = col - dc;
+          if (mx.isF(r, c)) continue;
+          var bit = 0;
+          if (bitIdx < totalBits) bit = (codewords[bitIdx >> 3] >>> (7 - (bitIdx & 7))) & 1;
+          bitIdx++;
+          if (maskBit(mask, r, c)) bit ^= 1;
+          mx.m[r * size + c] = bit;
+        }
+      }
+      upward = !upward;
+    }
+  }
+  function penalty(mx) {
+    var size = mx.size, score = 0, r, c, k;
+    for (r = 0; r < size; r++) {
+      var run = 1;
+      for (c = 1; c <= size; c++) {
+        if (c < size && mx.get(r, c) === mx.get(r, c - 1)) run++;
+        else { if (run >= 5) score += 3 + run - 5; run = 1; }
+      }
+    }
+    for (c = 0; c < size; c++) {
+      var run2 = 1;
+      for (r = 1; r <= size; r++) {
+        if (r < size && mx.get(r, c) === mx.get(r - 1, c)) run2++;
+        else { if (run2 >= 5) score += 3 + run2 - 5; run2 = 1; }
+      }
+    }
+    for (r = 0; r < size - 1; r++) {
+      for (c = 0; c < size - 1; c++) {
+        var v = mx.get(r, c);
+        if (v === mx.get(r, c + 1) && v === mx.get(r + 1, c) && v === mx.get(r + 1, c + 1)) score += 3;
+      }
+    }
+    var P1 = [1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0], P2 = [0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1];
+    for (r = 0; r < size; r++) {
+      for (c = 0; c + 11 <= size; c++) {
+        var m1 = true, m2 = true;
+        for (k = 0; k < 11; k++) {
+          var vv = mx.get(r, c + k);
+          if (vv !== P1[k]) m1 = false;
+          if (vv !== P2[k]) m2 = false;
+        }
+        if (m1) score += 40;
+        if (m2) score += 40;
+      }
+    }
+    for (c = 0; c < size; c++) {
+      for (r = 0; r + 11 <= size; r++) {
+        var n1 = true, n2 = true;
+        for (k = 0; k < 11; k++) {
+          var vv2 = mx.get(r + k, c);
+          if (vv2 !== P1[k]) n1 = false;
+          if (vv2 !== P2[k]) n2 = false;
+        }
+        if (n1) score += 40;
+        if (n2) score += 40;
+      }
+    }
+    var dark = 0;
+    for (var ii = 0; ii < size * size; ii++) dark += mx.m[ii];
+    var pct = dark * 100 / (size * size);
+    score += Math.floor(Math.abs(pct - 50) / 5) * 10;
+    return score;
+  }
+
+  function buildMatrix(codewords, version, level, mask) {
+    var size = 17 + 4 * version;
+    var mx = new Matrix(size);
+    stampFinders(mx);
+    stampAlign(mx, version);
+    stampTiming(mx);
+    reserveFormat(mx);
+    stampVersionInfo(mx, version);
+    placeData(mx, codewords, mask);
+    stampFormat(mx, level, mask);
+    return mx;
+  }
+
+  function make(text, opts) {
+    opts = opts || {};
+    var bytes = toUTF8(String(text));
+    var level = opts.level || 'M';
+    var version = opts.version || pickVersion(bytes.length, level);
+    if (!version && !opts.level && !opts.version) { level = 'L'; version = pickVersion(bytes.length, level); }
+    if (!version || (opts.version && !fitsIn(version, level, bytes.length))) {
+      var err = new Error('sadržaj ima ' + bytes.length + ' bajtova, a u QR kod stane najviše ' + maxBytes() + '.');
+      err.name = 'QROverflow';
+      throw err;
+    }
+    var codewords = buildCodewords(bytes, version, level);
+    var best = null, bestScore = Infinity, bestMask = 0;
+    if (typeof opts.mask === 'number') {
+      best = buildMatrix(codewords, version, level, opts.mask);
+      bestMask = opts.mask;
+    } else {
+      for (var m = 0; m < 8; m++) {
+        var cand = buildMatrix(codewords, version, level, m);
+        var s = penalty(cand);
+        if (s < bestScore) { bestScore = s; best = cand; bestMask = m; }
+      }
+    }
+    return {
+      size: best.size, version: version, level: level, mask: bestMask,
+      get: function (r, c) { return best.get(r, c); },
+      isFn: function (r, c) { return best.isF(r, c); }
+    };
+  }
+
+  return { make: make, maxBytes: maxBytes };
+})();
+
+</script>
+<script>
+(function(){
+'use strict';
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const STORAGE_KEY='vizitka-podaci-v2', OLD_KEY='vizitka-podaci', LANG_KEY='vizitka-jezik', THEME_KEY='vizitka-theme';
+const LANG_ORDER=['hr','en','de','es','it','fr'];
+const L={"hr":{"label":"🇭🇷 HR","appSub":"Digitalna posjetnica","heroTitle":"Digitalna<br>posjetnica<br>u jednom <em>QR</em><br>kodu.","heroText":"Upiši svoje podatke jednom. Podijeli ih QR kodom, .vcf datotekom ili spremi aplikaciju na početni zaslon.","createCard":"Kreiraj posjetnicu","installGuide":"Upute za instalaciju","privacy":"Podaci ostaju samo na tvom uređaju. Ništa se ne šalje nikome.","qrHelp":"Skeniraj kamerom telefona — spremanje kontakta nudi se odmah.","downloadQR":"Preuzmi QR","downloadPng":"(PNG)","downloadVcf":"Preuzmi .vcf","contact":"Kontakt","share":"Podijeli","shareSub":"Vizitku","editData":"Uredi posjetnicu","editSub":"Promijeni podatke posjetnice","settings":"Postavke","settingsSub":"Jezik, izgled kartice i ostalo","installSub":"Dodaj na početni zaslon","settingsIntro":"Prilagodi aplikaciju svojim postavkama.","language":"Jezik","appLanguage":"Jezik aplikacije","cardAppearance":"Izgled kartice","chooseTheme":"Odaberi temu svoje digitalne posjetnice.","adaptDark":"Prilagodi tamnom načinu","adaptDarkSub":"Automatski prilagodi boje sustavu","other":"Ostalo","deleteAll":"Obriši sve podatke","deleteConfirm":"Jesi li siguran da želiš obrisati sve podatke?","close":"Zatvori","save":"Spremi","cancel":"Odustani","back":"Natrag","name":"Ime","surname":"Prezime","title":"Titula","company":"Tvrtka","phone":"Telefon","email":"Email","website":"Web stranica","address":"Adresa","note":"Napomena","add":"Dodaj","downloaded":"Preuzeto","copied":"Kopirano","saved":"Spremljeno","installIntro":"Dodaj aplikaciju na početni zaslon za brzi pristup.","iphone":"iPhone (iOS)","android":"Android","afterInstall":"Nakon instalacije, aplikaciju možeš otvoriti kao običnu aplikaciju — bez preglednika.","iosSteps":["Otvori ovu stranicu u Safari pregledniku.","Dodirni tipku Dijeli {share} na dnu.","Odaberi “Dodaj na početni zaslon”.","Po želji promijeni naziv i dodirni “Dodaj”.","Aplikacija će se pojaviti na početnom zaslonu."],"androidSteps":["Otvori ovu stranicu u Chrome pregledniku.","Dodirni izbornik ⋮ gore desno.","Odaberi “Dodaj na početni zaslon” ili “Instaliraj aplikaciju”.","Potvrdi s “Dodaj / Install”.","Aplikacija će se pojaviti na početnom zaslonu."]},"en":{"label":"🇬🇧 EN","appSub":"Digital business card","heroTitle":"A digital business<br>card<br>inside one <em>QR</em><br>code.","heroText":"Enter your details once. Share them by QR code, .vcf file, or save the app to the Home Screen.","createCard":"Create card","installGuide":"Installation guide","privacy":"Data stays only on your device. Nothing is sent anywhere.","qrHelp":"Scan with a phone camera — saving the contact is offered immediately.","downloadQR":"Download QR","downloadPng":"(PNG)","downloadVcf":"Download .vcf","contact":"Contact","share":"Share","shareSub":"Vizitka","editData":"Edit card","editSub":"Change card details","settings":"Settings","settingsSub":"Language, card appearance and more","installSub":"Add to Home Screen","settingsIntro":"Customize the app to your preferences.","language":"Language","appLanguage":"App language","cardAppearance":"Card appearance","chooseTheme":"Choose a theme for your digital business card.","adaptDark":"Adapt to dark mode","adaptDarkSub":"Automatically adapt colors to the system","other":"Other","deleteAll":"Delete all data","deleteConfirm":"Are you sure you want to delete all data?","close":"Close","save":"Save","cancel":"Cancel","back":"Back","name":"First name","surname":"Last name","title":"Title","company":"Company","phone":"Phone","email":"Email","website":"Website","address":"Address","note":"Note","add":"Add","downloaded":"Downloaded","copied":"Copied","saved":"Saved","installIntro":"Add the app to your Home Screen for quick access.","iphone":"iPhone (iOS)","android":"Android","afterInstall":"After installation, you can open it like a normal app — without the browser.","iosSteps":["Open this page in Safari.","Tap the Share button {share} at the bottom.","Choose “Add to Home Screen”.","Optionally change the name and tap “Add”.","The app will appear on your Home Screen."],"androidSteps":["Open this page in Chrome.","Tap the ⋮ menu in the top right.","Choose “Add to Home screen” or “Install app”.","Confirm with “Add / Install”.","The app will appear on your Home Screen."]},"de":{"label":"🇩🇪 DE","appSub":"Digitale Visitenkarte","heroTitle":"Eine digitale<br>Visitenkarte<br>in einem <em>QR</em>-<br>Code.","heroText":"Gib deine Daten einmal ein. Teile sie per QR-Code, .vcf-Datei oder speichere die App auf dem Startbildschirm.","createCard":"Visitenkarte erstellen","installGuide":"Installationsanleitung","privacy":"Die Daten bleiben nur auf deinem Gerät. Es wird nichts gesendet.","qrHelp":"Mit der Handykamera scannen — der Kontakt kann sofort gespeichert werden.","downloadQR":"QR herunterladen","downloadPng":"(PNG)","downloadVcf":".vcf herunterladen","contact":"Kontakt","share":"Teilen","shareSub":"Vizitka","editData":"Visitenkarte bearbeiten","editSub":"Kartendaten ändern","settings":"Einstellungen","settingsSub":"Sprache, Kartendesign und mehr","installSub":"Zum Startbildschirm hinzufügen","settingsIntro":"Passe die App an deine Vorlieben an.","language":"Sprache","appLanguage":"App-Sprache","cardAppearance":"Kartendesign","chooseTheme":"Wähle ein Design für deine digitale Visitenkarte.","adaptDark":"An Dunkelmodus anpassen","adaptDarkSub":"Farben automatisch an das System anpassen","other":"Sonstiges","deleteAll":"Alle Daten löschen","deleteConfirm":"Möchtest du wirklich alle Daten löschen?","close":"Schließen","save":"Speichern","cancel":"Abbrechen","back":"Zurück","name":"Vorname","surname":"Nachname","title":"Titel","company":"Firma","phone":"Telefon","email":"E-Mail","website":"Webseite","address":"Adresse","note":"Notiz","add":"Hinzufügen","downloaded":"Heruntergeladen","copied":"Kopiert","saved":"Gespeichert","installIntro":"Füge die App für schnellen Zugriff zum Startbildschirm hinzu.","iphone":"iPhone (iOS)","android":"Android","afterInstall":"Nach der Installation kannst du sie wie eine normale App öffnen — ohne Browser.","iosSteps":["Öffne diese Seite in Safari.","Tippe unten auf die Teilen-Taste {share}.","Wähle „Zum Home-Bildschirm“ aus.","Ändere bei Bedarf den Namen und tippe auf „Hinzufügen“.","Die App erscheint auf dem Home-Bildschirm."],"androidSteps":["Öffne diese Seite in Chrome.","Tippe oben rechts auf das Menü ⋮.","Wähle „Zum Startbildschirm hinzufügen“ oder „App installieren“.","Bestätige mit „Hinzufügen / Installieren“.","Die App erscheint auf dem Startbildschirm."]},"es":{"label":"🇪🇸 ES","appSub":"Tarjeta digital","heroTitle":"Una tarjeta digital<br>en un solo<br>código <em>QR</em>.","heroText":"Introduce tus datos una vez. Compártelos por código QR, archivo .vcf o guarda la app en la pantalla de inicio.","createCard":"Crear tarjeta","installGuide":"Guía de instalación","privacy":"Los datos permanecen solo en tu dispositivo. No se envía nada.","qrHelp":"Escanea con la cámara del teléfono — el contacto puede guardarse inmediatamente.","downloadQR":"Descargar QR","downloadPng":"(PNG)","downloadVcf":"Descargar .vcf","contact":"Contacto","share":"Compartir","shareSub":"Vizitka","editData":"Editar tarjeta","editSub":"Cambiar datos de la tarjeta","settings":"Ajustes","settingsSub":"Idioma, estilo de tarjeta y más","installSub":"Añadir a la pantalla de inicio","settingsIntro":"Personaliza la app según tus preferencias.","language":"Idioma","appLanguage":"Idioma de la app","cardAppearance":"Aspecto de la tarjeta","chooseTheme":"Elige un tema para tu tarjeta digital.","adaptDark":"Adaptar al modo oscuro","adaptDarkSub":"Adaptar automáticamente los colores al sistema","other":"Otros","deleteAll":"Borrar todos los datos","deleteConfirm":"¿Seguro que quieres borrar todos los datos?","close":"Cerrar","save":"Guardar","cancel":"Cancelar","back":"Atrás","name":"Nombre","surname":"Apellido","title":"Cargo","company":"Empresa","phone":"Teléfono","email":"Correo electrónico","website":"Sitio web","address":"Dirección","note":"Nota","add":"Añadir","downloaded":"Descargado","copied":"Copiado","saved":"Guardado","installIntro":"Añade la app a la pantalla de inicio para acceso rápido.","iphone":"iPhone (iOS)","android":"Android","afterInstall":"Después de instalarla, puedes abrirla como una app normal — sin navegador.","iosSteps":["Abre esta página en Safari.","Toca el botón Compartir {share} en la parte inferior.","Elige “Añadir a pantalla de inicio”.","Si quieres, cambia el nombre y toca “Añadir”.","La app aparecerá en la pantalla de inicio."],"androidSteps":["Abre esta página en Chrome.","Toca el menú ⋮ arriba a la derecha.","Elige “Añadir a pantalla de inicio” o “Instalar app”.","Confirma con “Añadir / Instalar”.","La app aparecerá en la pantalla de inicio."]},"it":{"label":"🇮🇹 IT","appSub":"Biglietto digitale","heroTitle":"Un biglietto digitale<br>in un solo<br>codice <em>QR</em>.","heroText":"Inserisci i tuoi dati una volta. Condividili tramite codice QR, file .vcf o salva l’app nella schermata Home.","createCard":"Crea biglietto","installGuide":"Guida all’installazione","privacy":"I dati restano solo sul tuo dispositivo. Non viene inviato nulla.","qrHelp":"Scansiona con la fotocamera del telefono — il contatto può essere salvato immediatamente.","downloadQR":"Scarica QR","downloadPng":"(PNG)","downloadVcf":"Scarica .vcf","contact":"Contatto","share":"Condividi","shareSub":"Vizitka","editData":"Modifica biglietto","editSub":"Modifica i dati del biglietto","settings":"Impostazioni","settingsSub":"Lingua, stile del biglietto e altro","installSub":"Aggiungi alla schermata Home","settingsIntro":"Personalizza l’app secondo le tue preferenze.","language":"Lingua","appLanguage":"Lingua dell’app","cardAppearance":"Aspetto del biglietto","chooseTheme":"Scegli un tema per il tuo biglietto digitale.","adaptDark":"Adatta alla modalità scura","adaptDarkSub":"Adatta automaticamente i colori al sistema","other":"Altro","deleteAll":"Elimina tutti i dati","deleteConfirm":"Vuoi davvero eliminare tutti i dati?","close":"Chiudi","save":"Salva","cancel":"Annulla","back":"Indietro","name":"Nome","surname":"Cognome","title":"Ruolo","company":"Azienda","phone":"Telefono","email":"Email","website":"Sito web","address":"Indirizzo","note":"Nota","add":"Aggiungi","downloaded":"Scaricato","copied":"Copiato","saved":"Salvato","installIntro":"Aggiungi l’app alla schermata Home per un accesso rapido.","iphone":"iPhone (iOS)","android":"Android","afterInstall":"Dopo l’installazione puoi aprirla come una normale app — senza browser.","iosSteps":["Apri questa pagina in Safari.","Tocca il pulsante Condividi {share} in basso.","Scegli “Aggiungi alla schermata Home”.","Se vuoi, modifica il nome e tocca “Aggiungi”.","L’app apparirà nella schermata Home."],"androidSteps":["Apri questa pagina in Chrome.","Tocca il menu ⋮ in alto a destra.","Scegli “Aggiungi alla schermata Home” o “Installa app”.","Conferma con “Aggiungi / Installa”.","L’app apparirà nella schermata Home."]},"fr":{"label":"🇫🇷 FR","appSub":"Carte numérique","heroTitle":"Une carte numérique<br>dans un seul<br>code <em>QR</em>.","heroText":"Saisis tes informations une seule fois. Partage-les par code QR, fichier .vcf ou ajoute l’app à l’écran d’accueil.","createCard":"Créer la carte","installGuide":"Guide d’installation","privacy":"Les données restent uniquement sur ton appareil. Rien n’est envoyé.","qrHelp":"Scanne avec l’appareil photo du téléphone — le contact peut être enregistré immédiatement.","downloadQR":"Télécharger QR","downloadPng":"(PNG)","downloadVcf":"Télécharger .vcf","contact":"Contact","share":"Partager","shareSub":"Vizitka","editData":"Modifier la carte","editSub":"Modifier les informations de la carte","settings":"Paramètres","settingsSub":"Langue, apparence de la carte et plus","installSub":"Ajouter à l’écran d’accueil","settingsIntro":"Personnalise l’app selon tes préférences.","language":"Langue","appLanguage":"Langue de l’app","cardAppearance":"Apparence de la carte","chooseTheme":"Choisis un thème pour ta carte numérique.","adaptDark":"Adapter au mode sombre","adaptDarkSub":"Adapter automatiquement les couleurs au système","other":"Autre","deleteAll":"Supprimer toutes les données","deleteConfirm":"Veux-tu vraiment supprimer toutes les données ?","close":"Fermer","save":"Enregistrer","cancel":"Annuler","back":"Retour","name":"Prénom","surname":"Nom","title":"Fonction","company":"Entreprise","phone":"Téléphone","email":"E-mail","website":"Site web","address":"Adresse","note":"Note","add":"Ajouter","downloaded":"Téléchargé","copied":"Copié","saved":"Enregistré","installIntro":"Ajoute l’app à l’écran d’accueil pour un accès rapide.","iphone":"iPhone (iOS)","android":"Android","afterInstall":"Après l’installation, tu peux l’ouvrir comme une app normale — sans navigateur.","iosSteps":["Ouvre cette page dans Safari.","Touche le bouton Partager {share} en bas.","Choisis « Ajouter à l’écran d’accueil ».","Si tu veux, modifie le nom puis touche « Ajouter ».","L’app apparaîtra sur l’écran d’accueil."],"androidSteps":["Ouvre cette page dans Chrome.","Touche le menu ⋮ en haut à droite.","Choisis « Ajouter à l’écran d’accueil » ou « Installer l’app ».","Confirme avec « Ajouter / Installer ».","L’app apparaîtra sur l’écran d’accueil."]}};
+['de','es','it','fr'].forEach(k=>L[k]=Object.assign({},L.en,L[k]));
+/* === i18n: keys required by the markup + dynamic strings (fixes raw-key labels and untranslated screens) === */
+const L_EXTRA={
+ hr:{settingsIntro:"Prilagodi aplikaciju svojim željama.",qrCap:"Spremi kontakt jednim skeniranjem.",downloadQr:"Preuzmi QR",myQr:"Moj QR kod",privacy2:"Podaci ostaju kod tebe — spremaju se uz ovu aplikaciju i ne šalju se nikome.",personal:"Osobni",contactData:"Kontakt",web:"Web",preview:"Pregled",firstName:"Ime",lastName:"Prezime",position:"Pozicija / Titula",description:"Opis (opcionalno)",next:"Dalje",department:"Odjel / dodatni opis",showCompany:"Prikaži tvrtku na posjetnici",extraField:"Dodatno polje",selectedTheme:"Odabrana tema",change:"Promijeni ›",cardLook:"Izgled kartice",themeHelp:"Odaberi temu svoje digitalne posjetnice.",darkMode:"Prilagodi tamnom načinu rada",darkModeSub:"Automatski prilagodi boje sustavu",installAfter:"Nakon instalacije, aplikaciju možeš otvoriti kao običnu aplikaciju — bez preglednika.",savedTitle:"Podaci spremljeni!",savedText:"Tvoja digitalna posjetnica je spremna.",savedP1:"Svi podaci su spremljeni samo na tvom uređaju.",savedP2:"Možeš ih jednostavno urediti.",savedP3:"Podijeli QR kodom ili .vcf datotekom.",goToCard:"Idi na posjetnicu",cardRoleFallback:"Digitalna posjetnica",cardEmpty:"Kontakt podaci pojavit će se ovdje.",activeTheme:"Aktivna tema"},
+ en:{qrCap:"Save the contact with a single scan.",downloadQr:"Download QR",myQr:"My QR code",privacy2:"Your data stays with you — it's saved with this app and never sent to anyone.",personal:"Personal",contactData:"Contact",web:"Web",preview:"Preview",firstName:"First name",lastName:"Last name",position:"Position / Title",description:"Description (optional)",next:"Next",department:"Department / extra description",showCompany:"Show company on the card",extraField:"Extra field",selectedTheme:"Selected theme",change:"Change ›",cardLook:"Card appearance",themeHelp:"Choose a theme for your digital business card.",darkMode:"Adapt to dark mode",darkModeSub:"Automatically adapt colors to the system",installAfter:"After installation, you can open it like a normal app — without the browser.",savedTitle:"Data saved!",savedText:"Your digital business card is ready.",savedP1:"All data is saved only on your device.",savedP2:"You can edit it easily.",savedP3:"Share by QR code or .vcf file.",goToCard:"Go to card",cardRoleFallback:"Digital business card",cardEmpty:"Contact details will appear here.",activeTheme:"Active theme"},
+ de:{qrCap:"Speichere den Kontakt mit einem einzigen Scan.",downloadQr:"QR herunterladen",myQr:"Mein QR-Code",privacy2:"Deine Daten bleiben bei dir — sie werden mit dieser App gespeichert und an niemanden gesendet.",personal:"Persönlich",contactData:"Kontakt",web:"Web",preview:"Vorschau",firstName:"Vorname",lastName:"Nachname",position:"Position / Titel",description:"Beschreibung (optional)",next:"Weiter",department:"Abteilung / Zusatzinfo",showCompany:"Firma auf der Karte anzeigen",extraField:"Zusätzliches Feld",selectedTheme:"Ausgewähltes Design",change:"Ändern ›",cardLook:"Kartendesign",themeHelp:"Wähle ein Design für deine digitale Visitenkarte.",darkMode:"An Dunkelmodus anpassen",darkModeSub:"Farben automatisch an das System anpassen",installAfter:"Nach der Installation kannst du sie wie eine normale App öffnen — ohne Browser.",savedTitle:"Daten gespeichert!",savedText:"Deine digitale Visitenkarte ist fertig.",savedP1:"Alle Daten werden nur auf deinem Gerät gespeichert.",savedP2:"Du kannst sie jederzeit einfach bearbeiten.",savedP3:"Teile sie per QR-Code oder .vcf-Datei.",goToCard:"Zur Visitenkarte",cardRoleFallback:"Digitale Visitenkarte",cardEmpty:"Die Kontaktdaten erscheinen hier.",activeTheme:"Aktives Design"},
+ es:{qrCap:"Guarda el contacto con un solo escaneo.",downloadQr:"Descargar QR",myQr:"Mi código QR",privacy2:"Tus datos se quedan contigo — se guardan con esta app y no se envían a nadie.",personal:"Personal",contactData:"Contacto",web:"Web",preview:"Vista previa",firstName:"Nombre",lastName:"Apellido",position:"Cargo / Puesto",description:"Descripción (opcional)",next:"Siguiente",department:"Departamento / descripción adicional",showCompany:"Mostrar la empresa en la tarjeta",extraField:"Campo adicional",selectedTheme:"Tema seleccionado",change:"Cambiar ›",cardLook:"Aspecto de la tarjeta",themeHelp:"Elige un tema para tu tarjeta digital.",darkMode:"Adaptar al modo oscuro",darkModeSub:"Adaptar automáticamente los colores al sistema",installAfter:"Después de instalarla, puedes abrirla como una app normal — sin navegador.",savedTitle:"¡Datos guardados!",savedText:"Tu tarjeta digital está lista.",savedP1:"Todos los datos se guardan solo en tu dispositivo.",savedP2:"Puedes editarlos fácilmente.",savedP3:"Compártelos por código QR o archivo .vcf.",goToCard:"Ir a la tarjeta",cardRoleFallback:"Tarjeta digital",cardEmpty:"Los datos de contacto aparecerán aquí.",activeTheme:"Tema activo"},
+ it:{qrCap:"Salva il contatto con una sola scansione.",downloadQr:"Scarica QR",myQr:"Il mio codice QR",privacy2:"I tuoi dati restano con te — vengono salvati con questa app e non vengono inviati a nessuno.",personal:"Personale",contactData:"Contatto",web:"Web",preview:"Anteprima",firstName:"Nome",lastName:"Cognome",position:"Posizione / Ruolo",description:"Descrizione (facoltativo)",next:"Avanti",department:"Reparto / descrizione aggiuntiva",showCompany:"Mostra l’azienda sul biglietto",extraField:"Campo aggiuntivo",selectedTheme:"Tema selezionato",change:"Cambia ›",cardLook:"Aspetto del biglietto",themeHelp:"Scegli un tema per il tuo biglietto digitale.",darkMode:"Adatta alla modalità scura",darkModeSub:"Adatta automaticamente i colori al sistema",installAfter:"Dopo l’installazione puoi aprirla come una normale app — senza browser.",savedTitle:"Dati salvati!",savedText:"Il tuo biglietto digitale è pronto.",savedP1:"Tutti i dati vengono salvati solo sul tuo dispositivo.",savedP2:"Puoi modificarli facilmente.",savedP3:"Condividi tramite codice QR o file .vcf.",goToCard:"Vai al biglietto",cardRoleFallback:"Biglietto digitale",cardEmpty:"I dati di contatto appariranno qui.",activeTheme:"Tema attivo"},
+ fr:{qrCap:"Enregistre le contact en un seul scan.",downloadQr:"Télécharger QR",myQr:"Mon code QR",privacy2:"Tes données restent chez toi — elles sont enregistrées avec cette app et ne sont envoyées à personne.",personal:"Personnel",contactData:"Contact",web:"Web",preview:"Aperçu",firstName:"Prénom",lastName:"Nom",position:"Poste / Fonction",description:"Description (facultatif)",next:"Suivant",department:"Service / description supplémentaire",showCompany:"Afficher l’entreprise sur la carte",extraField:"Champ supplémentaire",selectedTheme:"Thème sélectionné",change:"Modifier ›",cardLook:"Apparence de la carte",themeHelp:"Choisis un thème pour ta carte numérique.",darkMode:"Adapter au mode sombre",darkModeSub:"Adapter automatiquement les couleurs au système",installAfter:"Après l’installation, tu peux l’ouvrir comme une app normale — sans navigateur.",savedTitle:"Données enregistrées !",savedText:"Ta carte numérique est prête.",savedP1:"Toutes les données sont enregistrées uniquement sur ton appareil.",savedP2:"Tu peux les modifier facilement.",savedP3:"Partage-les par code QR ou fichier .vcf.",goToCard:"Aller à la carte",cardRoleFallback:"Carte numérique",cardEmpty:"Les coordonnées apparaîtront ici.",activeTheme:"Thème actif"}
+};
+['hr','en','de','es','it','fr'].forEach(k=>{L[k]=Object.assign({},L[k],L_EXTRA[k]);});
+const themes=[['navy','Navy','sw-navy'],['black','Black','sw-black'],['white','Pearl','sw-white'],['emerald','Green','sw-emerald'],['burgundy','Red','sw-burgundy']];
+let lang='en', theme='navy';
+let state={firstName:'',lastName:'',position:'',companyName:'',department:'',phone:'',email:'',website:'',address:'',description:'',linkedin:'',instagram:'',extra:''};
+function tr(k){return (L[lang]&&L[lang][k])||L.en[k]||k}
+function detectLang(){try{let s=localStorage.getItem(LANG_KEY);if(LANG_ORDER.includes(s))return s}catch(e){}let n=(navigator.language||'en').toLowerCase();if(n.startsWith('hr'))return'hr';if(n.startsWith('de'))return'de';if(n.startsWith('es'))return'es';if(n.startsWith('it'))return'it';if(n.startsWith('fr'))return'fr';return'en'}
+function applyLang(save=false){document.documentElement.lang=lang;$$('[data-i]').forEach(el=>el.textContent=tr(el.dataset.i));$$('[data-i-html]').forEach(el=>el.innerHTML=tr(el.dataset.iHtml));$('#langBtn').textContent='🌐 '+L[lang].label+' ▼';$('#settingsLangText').textContent=L[lang].label;$$('#langMenu button').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));if(save)try{localStorage.setItem(LANG_KEY,lang)}catch(e){} renderInstallSteps();renderThemes();renderCards();}
+function setTheme(t){theme=t;document.documentElement.dataset.theme=t;try{localStorage.setItem(THEME_KEY,t)}catch(e){}renderThemes();$('#themeNameEdit').textContent=themes.find(x=>x[0]===theme)?.[1]||'Navy'}
+function fullName(){return (state.firstName+' '+state.lastName).trim()}
+function initials(){let p=fullName().split(/\s+/).filter(Boolean);return ((p[0]||'').charAt(0)+(p.length>1?p[p.length-1].charAt(0):'')).toUpperCase()||'V'}
+function role(){return [state.position,state.companyName].filter(Boolean).join(' · ')}
+function displayUrl(v){return (v||'').replace(/^https?:\/\//i,'').replace(/\/$/,'')}
+function normUrl(v){return /^https?:\/\//i.test(v)?v:'https://'+v}
+function cardHtml(){let rows=[]; if(state.phone)rows.push(['☏',state.phone]); if(state.email)rows.push(['✉',state.email]); if(state.website)rows.push(['◎',displayUrl(state.website)]); if(state.address)rows.push(['⌖',state.address]); if(state.linkedin)rows.push(['in',displayUrl(state.linkedin)]); if(state.instagram)rows.push(['＠',state.instagram]); if(state.extra)rows.push(['＋',state.extra]); return `<div class="card"><div class="cardTop"><div class="avatar">${initials()}</div><div><div class="nm">${fullName()||'Vizitka'}</div><div class="role">${role()||tr('cardRoleFallback')}</div></div></div><div class="rule"></div><div class="rows">${rows.map(r=>`<div class="row"><i>${r[0]}</i><span>${r[1]}</span></div>`).join('')||`<div class="row"><i>◎</i><span>${tr('cardEmpty')}</span></div>`}</div></div>`}
+function renderCards(){$('#cardMount').innerHTML=cardHtml();$('#previewMount').innerHTML=cardHtml();}
+function buildVCard(){let n=fullName(); let Ls=['BEGIN:VCARD','VERSION:3.0']; Ls.push('N:'+(state.lastName||'')+';'+(state.firstName||'')+';;;'); Ls.push('FN:'+n); if(state.companyName)Ls.push('ORG:'+state.companyName); if(state.position)Ls.push('TITLE:'+state.position); if(state.phone)Ls.push('TEL;TYPE=CELL:'+state.phone); if(state.email)Ls.push('EMAIL:'+state.email); if(state.website)Ls.push('URL:'+normUrl(state.website)); if(state.address)Ls.push('ADR;TYPE=WORK:;;'+state.address+';;;;'); if(state.description)Ls.push('NOTE:'+state.description); Ls.push('END:VCARD'); return Ls.join('\n')}
+function renderQR(){let el=$('#qrcode');el.innerHTML=''; if(!fullName())return; let qr=QRMatrix.make(buildVCard(),{level:'L'}); let scale=Math.max(3,Math.floor(300/qr.size)); let c=document.createElement('canvas'); c.width=c.height=qr.size*scale; let ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);ctx.fillStyle='#000'; for(let r=0;r<qr.size;r++)for(let col=0;col<qr.size;col++)if(qr.get(r,col))ctx.fillRect(col*scale,r*scale,scale,scale); el.appendChild(c)}
+function saveState(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));localStorage.removeItem(OLD_KEY)}catch(e){}}
+function loadState(){try{let s=localStorage.getItem(STORAGE_KEY); if(s){Object.assign(state,JSON.parse(s));return} let old=localStorage.getItem(OLD_KEY); if(old){let o=JSON.parse(old); let parts=(o.name||'').split(' '); state.firstName=parts.shift()||''; state.lastName=parts.join(' '); state.position=o.position||''; state.companyName=o.company||''; state.phone=o.phone||''; state.email=o.email||''; state.website=o.website||''; state.address=o.address||'';}}catch(e){}}
+function hasData(){return !!fullName()}
+function show(id){['onboarding','home','edit','settings','install','success'].forEach(x=>$('#'+x).hidden=x!==id); window.scrollTo(0,0); if(id==='home'){renderCards();renderQR();} if(id==='edit'){syncForm();renderCards();}}
+function syncForm(){['firstName','lastName','position','phone','email','website','address','description','linkedin','instagram','extra'].forEach(k=>{let el=$('#'+k);if(el)el.value=state[k]||''});$('#companyName').value=state.companyName||'';$('#department').value=state.department||''}
+function readForm(){['firstName','lastName','position','phone','email','website','address','description','linkedin','instagram','extra'].forEach(k=>{let el=$('#'+k);if(el)state[k]=el.value.trim()});state.companyName=$('#companyName').value.trim();state.department=$('#department').value.trim();}
+function setStep(n){$$('.editStep').forEach(p=>p.hidden=p.dataset.panel!=n);$$('.tab').forEach(t=>t.classList.toggle('active',t.dataset.step==n));renderCards()}
+function renderLangMenu(){$('#langMenu').innerHTML=LANG_ORDER.map(k=>`<button type="button" data-lang="${k}">${L[k].label}</button>`).join('')}
+function renderThemes(){let box=$('#themeList'); if(!box)return; box.innerHTML=themes.map(x=>`<button class="themeItem ${x[0]===theme?'active':''}" data-theme="${x[0]}"><span class="radio"></span><span class="swatch ${x[2]}"></span><span><b>${x[1]}</b>${x[0]===theme?'<div class="activeNote">'+tr('activeTheme')+'</div>':''}</span><span style="margin-left:auto">${x[0]===theme?'✓':''}</span></button>`).join('')}
+function renderInstallSteps(){var SHARE='<svg class="shareIcon" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14V3.7"/><path d="M8.4 7.3L12 3.7l3.6 3.6"/><path d="M8.3 10.5H6.8a2.8 2.8 0 0 0-2.8 2.8v4.9A2.8 2.8 0 0 0 6.8 21h10.4a2.8 2.8 0 0 0 2.8-2.8v-4.9a2.8 2.8 0 0 0-2.8-2.8h-1.5"/></g></svg>';var build=function(arr){return Array.isArray(arr)?arr.map(function(s,i){return '<div class="installStep"><span class="num">'+(i+1)+'</span><span>'+String(s).replace('{share}',SHARE)+'</span></div>';}).join(''):'';};var iosEl=$('#iosSteps'),andEl=$('#androidSteps');if(iosEl)iosEl.innerHTML=build(tr('iosSteps'));if(andEl)andEl.innerHTML=build(tr('androidSteps'));}
+function download(name,blob){let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1500)}
+function slug(s){return (s||'vizitka').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'vizitka'}
+function init(){lang=detectLang();theme=localStorage.getItem(THEME_KEY)||'navy';renderLangMenu();applyLang(false);setTheme(theme);loadState();renderCards();renderQR();show(hasData()?'home':'onboarding');
+$('#langBtn').onclick=()=>{$('#langMenu').hidden=!$('#langMenu').hidden}; $('#langMenu').onclick=e=>{if(e.target.dataset.lang){lang=e.target.dataset.lang;applyLang(true);$('#langMenu').hidden=true}};
+$('#startBtn').onclick=()=>show('edit');$('#installFromStart').onclick=()=>show('install');$('#editBtn').onclick=()=>show('edit');$('#settingsBtn').onclick=()=>show('settings');$('#installBtn').onclick=()=>show('install');$('#settingsClose').onclick=()=>show(hasData()?'home':'onboarding');$('#installClose').onclick=()=>show(hasData()?'home':'onboarding');$('#installDone').onclick=()=>show(hasData()?'home':'onboarding');$('#editBack').onclick=()=>show(hasData()?'home':'onboarding');$('#goHome').onclick=()=>show('home');$('#installFromSettings').onclick=()=>show('install');$('#settingsLangBtn').onclick=()=>{$('#langMenu').hidden=false;window.scrollTo(0,0)};
+$$('.nextStep').forEach(b=>b.onclick=()=>{readForm();setStep(b.dataset.next)});$$('.prevStep').forEach(b=>b.onclick=()=>setStep(b.dataset.prev));$$('.tab').forEach(b=>b.onclick=()=>{readForm();setStep(b.dataset.step)});$$('input,textarea').forEach(i=>i.oninput=()=>{readForm();renderCards()});$('#saveBtn').onclick=()=>{readForm();saveState();show('success')};$('#changeThemeInEdit').onclick=()=>show('settings');
+$('#themeList').onclick=e=>{let b=e.target.closest('[data-theme]'); if(b)setTheme(b.dataset.theme)};$('#resetBtn').onclick=()=>{if(confirm(tr('deleteConfirm'))){try{localStorage.removeItem(STORAGE_KEY);localStorage.removeItem(OLD_KEY)}catch(e){};Object.keys(state).forEach(k=>state[k]='');show('onboarding')}};
+$('#iosTab').onclick=()=>{$('#iosTab').classList.add('active');$('#androidTab').classList.remove('active');$('#iosSteps').hidden=false;$('#androidSteps').hidden=true};$('#androidTab').onclick=()=>{$('#androidTab').classList.add('active');$('#iosTab').classList.remove('active');$('#androidSteps').hidden=false;$('#iosSteps').hidden=true};
+$('#btnVcf').onclick=()=>download(slug(fullName())+'.vcf',new Blob([buildVCard()],{type:'text/vcard'}));$('#btnPng').onclick=()=>{let c=$('#qrcode canvas'); if(!c)return; c.toBlob(b=>download('vizitka-qr-'+slug(fullName())+'.png',b));};$('#btnShare').onclick=()=>{let text=fullName()+'\n'+[state.position,state.companyName].filter(Boolean).join(', ')+'\n'+[state.phone,state.email,state.website,state.address].filter(Boolean).join('\n'); if(navigator.share)navigator.share({title:'Vizitka',text}); else download(slug(fullName())+'.vcf',new Blob([buildVCard()],{type:'text/vcard'}));};
+if('serviceWorker'in navigator)navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+}
+init();
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+
+<!-- tuned version -->
