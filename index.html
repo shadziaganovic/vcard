@@ -1101,6 +1101,35 @@ font-weight:700!important;
 
 
 
+
+<style id="responsive-vizitka-2026">
+html{scrollbar-gutter:stable}body{margin:0}.app{width:min(100%,960px);padding:16px 20px 24px!important}
+main:not(#home){max-width:520px;margin-inline:auto}.topbar{min-height:36px;margin-bottom:12px}.pill{min-height:40px;padding:8px 12px;font-size:13px}
+#home:not([hidden]){display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px 28px;align-items:start;padding-top:16px}
+#cardMount{grid-column:1;grid-row:1;margin:0!important}.qrSection{grid-column:2;grid-row:1 / span 3}
+#home .card{padding:24px!important;border-radius:24px!important;box-shadow:0 12px 36px #0002!important}
+#home .cardTop{gap:14px}#home .cardTop>div:last-child{min-width:0}#home .avatar{width:60px;height:60px;font-size:24px;border-width:1px}
+#home .nm{font-size:clamp(24px,4vw,34px);line-height:1.12;overflow-wrap:anywhere}#home .role{font-size:11px;letter-spacing:.08em;line-height:1.5;overflow-wrap:anywhere}
+.contactDetails{margin-top:14px;border-top:1px solid var(--border);padding-top:6px}.contactDetails summary{cursor:pointer;min-height:36px;align-content:center;color:var(--muted);font-size:13px}.contactDetails .rows{gap:12px;margin-top:12px}.row span{overflow-wrap:anywhere;min-width:0}#home .row{font-size:15px}
+#home .qrWrap{width:100%!important;max-width:260px!important;padding:14px!important;border-radius:24px!important;margin:0 auto!important}#home #qrcode canvas{width:100%;height:auto;border:12px solid white;border-radius:8px}#home .qrCap{font-size:12px;line-height:1.4;margin:10px auto 0;max-width:250px}
+#home .actionGrid{grid-column:1;gap:8px!important;margin:0}#home .miniBtn{height:auto!important;min-height:64px!important;padding:10px 6px!important;font-size:12px!important;gap:5px!important;border-radius:14px!important;box-shadow:none!important}#home .miniBtn .ico{font-size:20px!important}#home .miniBtn .goldText{display:none}
+#home .homeTools .listBtn [data-i]{font-size:12px!important;line-height:1.3!important}#home .homeTools .listBtn .ico{flex:0 0 auto!important;width:auto!important} .homeTools{grid-column:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+#home .homeTools .listBtn{margin:0!important;min-height:48px!important;height:auto!important;padding:8px!important;border:0!important;background:transparent!important;box-shadow:none!important;font-size:12px!important;justify-content:center;text-align:center;border-radius:12px!important}
+#home .homeTools .listBtn>span:first-child{display:flex;flex-direction:column;gap:4px!important;justify-content:center}#home .homeTools .listBtn .ico{font-size:18px!important}#home .homeTools .listBtn .mutedSub,#home .homeTools .listBtn>span:last-child{display:none!important}#home .homeTools .listBtn:hover{background:var(--panel)!important}
+#home .footer{grid-column:1 / -1;margin:4px auto 0;font-size:11px;line-height:1.5;max-width:460px}.qrTitleHidden{display:none!important}
+button:focus-visible,summary:focus-visible{outline:3px solid var(--accent,#8fd3ff);outline-offset:4px}
+#darkModeToggle{width:52px;height:32px;min-width:52px;border:0;border-radius:999px!important;padding:0;position:relative;background:#6b7280!important;cursor:pointer;flex-shrink:0;margin-left:14px}
+#darkModeToggle:after{width:26px;height:26px;left:3px;right:auto;top:3px;transition:transform .18s;background:#fff}
+#darkModeToggle[aria-checked="true"]{background:var(--accent,#4eafff)!important}#darkModeToggle[aria-checked="true"]:after{transform:translateX(20px)}
+@media(max-width:680px){
+ .app{max-width:460px;padding:10px 16px 20px!important}.topbar{margin-bottom:8px}#home:not([hidden]){display:flex;flex-direction:column;gap:12px;padding-top:0}#home>*{width:100%}
+ #home .card{padding:16px!important;border-radius:20px!important}#home .avatar{width:46px;height:46px;font-size:20px}#home .nm{font-size:26px}.contactDetails{margin-top:8px;padding-top:0}.contactDetails summary{min-height:32px}
+ #home .qrWrap{width:220px!important;max-width:100%!important;padding:12px!important}#home .qrCap{margin-top:7px}.homeTools{gap:4px}#home .footer{margin-top:0}#home .actionGrid{display:grid;width:100%}
+}
+@media(max-width:680px) and (max-height:720px){#home:not([hidden]){gap:8px}#home .qrWrap{width:196px!important}#home .miniBtn{height:auto!important;min-height:54px!important}#home .card{padding:12px 16px!important}.topbar{margin-bottom:4px}#home .qrCap{font-size:11px}}
+@media(prefers-reduced-motion:reduce){#darkModeToggle:after{transition:none}}
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -1125,17 +1154,17 @@ font-weight:700!important;
   <main id="home" hidden>
     <section id="cardMount"></section>
     <div class="secTitle qrTitleHidden" data-i="myQr">Moj QR kod</div>
-    <div class="qrWrap"><div id="qrcode"></div></div>
+    <section class="qrSection"><div class="qrWrap"><div id="qrcode"></div></div>
     <p class="qrCap" data-i="qrCap">Spremi kontakt jednim skeniranjem.</p>
-    <div class="actionGrid">
+    </section><div class="actionGrid">
       <button class="btn miniBtn" id="btnPng"><span class="ico">⇩</span><span data-i="downloadQr">Preuzmi QR</span><span class="goldText">(PNG)</span></button>
       <button class="btn miniBtn" id="btnVcf"><span class="ico">▣</span><span data-i="downloadVcf">Preuzmi .vcf</span><span class="goldText" data-i="contact">Kontakt</span></button>
       <button class="btn miniBtn" id="btnShare"><span class="ico">⌯</span><span data-i="share">Podijeli</span><span class="goldText" data-i="shareSub">Vizitku</span></button>
     </div>
-    <button class="btn primary big listBtn" id="editBtn"><span><span class="ico">✎</span><span><span data-i="editData">Uredi posjetnicu</span><div class="mutedSub" data-i="editSub">Promijeni podatke posjetnice</div></span></span><span>›</span></button>
+    <nav class="homeTools"><button class="btn primary big listBtn" id="editBtn"><span><span class="ico">✎</span><span><span data-i="editData">Uredi posjetnicu</span><div class="mutedSub" data-i="editSub">Promijeni podatke posjetnice</div></span></span><span>›</span></button>
     <button class="btn listBtn" id="settingsBtn"><span><span class="ico">⚙</span><span><span data-i="settings">Postavke</span><div class="mutedSub" data-i="settingsSub">Jezik, izgled kartice i ostalo</div></span></span><span>›</span></button>
     <button class="btn ghost listBtn" id="installBtn"><span><span class="ico">▯</span><span><span data-i="installGuide">Upute za instalaciju</span><div class="mutedSub" data-i="installSub">Dodaj na početni zaslon</div></span></span><span>›</span></button>
-    <p class="footer">🔒 <span data-i="privacy2">Podaci ostaju kod tebe — spremaju se uz ovu aplikaciju i ne šalju se nikome.</span></p>
+    </nav><p class="footer">🔒 <span data-i="privacy2">Podaci ostaju kod tebe — spremaju se uz ovu aplikaciju i ne šalju se nikome.</span></p>
   </main>
 
   <main id="edit" hidden>
@@ -1189,7 +1218,7 @@ font-weight:700!important;
       <div class="secTitle" style="text-align:left" data-i="cardLook">Izgled kartice</div>
       <p class="mutedSub" data-i="themeHelp">Odaberi temu svoje digitalne posjetnice.</p>
       <div class="themeList" id="themeList"></div>
-      <div class="toggleRow"><span>🌙 <span data-i="darkMode">Prilagodi tamnom načinu rada</span><div class="mutedSub" data-i="darkModeSub">Automatski prilagodi boje sustavu</div></span><span class="switch"></span></div>
+      <div class="toggleRow"><span>🌙 <span id="darkModeLabel" data-i="darkMode">Prilagodi tamnom načinu rada</span><div class="mutedSub" data-i="darkModeSub">Automatski prilagodi boje sustavu</div></span><button type="button" id="darkModeToggle" class="switch" role="switch" aria-checked="false" aria-labelledby="darkModeLabel"></button></div>
       <div class="secTitle" style="text-align:left" data-i="other">Ostalo</div>
       <button class="btn listBtn" id="installFromSettings"><span>▯ <span data-i="installGuide">Upute za instalaciju</span></span><span>›</span></button>
       <button class="btn listBtn danger" id="resetBtn"><span>🗑 <span data-i="deleteAll">Obriši sve podatke</span></span><span>›</span></button>
@@ -1609,14 +1638,28 @@ let state={firstName:'',lastName:'',position:'',companyName:'',department:'',pho
 function tr(k){return (L[lang]&&L[lang][k])||L.en[k]||k}
 function detectLang(){try{let s=localStorage.getItem(LANG_KEY);if(LANG_ORDER.includes(s))return s}catch(e){}let n=(navigator.language||'en').toLowerCase();if(n.startsWith('hr'))return'hr';if(n.startsWith('de'))return'de';if(n.startsWith('es'))return'es';if(n.startsWith('it'))return'it';if(n.startsWith('fr'))return'fr';return'en'}
 function applyLang(save=false){document.documentElement.lang=lang;$$('[data-i]').forEach(el=>el.textContent=tr(el.dataset.i));$$('[data-i-html]').forEach(el=>el.innerHTML=tr(el.dataset.iHtml));$('#langBtn').textContent='🌐 '+L[lang].label+' ▼';$('#settingsLangText').textContent=L[lang].label;$$('#langMenu button').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));if(save)try{localStorage.setItem(LANG_KEY,lang)}catch(e){} renderInstallSteps();renderThemes();renderCards();}
-function setTheme(t){theme=t;document.documentElement.dataset.theme=t;try{localStorage.setItem(THEME_KEY,t)}catch(e){}renderThemes();$('#themeNameEdit').textContent=themes.find(x=>x[0]===theme)?.[1]||'Navy'}
+const AUTO_THEME_KEY='vizitka_auto_theme';
+const systemTheme=window.matchMedia('(prefers-color-scheme: dark)');
+let followSystem=false;
+function applyTheme(){
+ const active=followSystem?(systemTheme.matches?(theme==='white'?'navy':theme):'white'):theme;
+ document.documentElement.dataset.theme=active;
+ document.documentElement.style.colorScheme=active==='white'?'light':'dark';
+ document.querySelector('meta[name="theme-color"]').content=active==='white'?'#F3EFE8':'#06111f';
+ $('#darkModeToggle').setAttribute('aria-checked',String(followSystem));
+ renderThemes();$('#themeNameEdit').textContent=themes.find(x=>x[0]===theme)?.[1]||'Navy';
+}
+function setTheme(t){theme=themes.some(x=>x[0]===t)?t:'navy';try{localStorage.setItem(THEME_KEY,theme)}catch(e){}applyTheme()}
+function setFollowSystem(value){followSystem=value;try{localStorage.setItem(AUTO_THEME_KEY,String(value))}catch(e){}applyTheme()}
+if(systemTheme.addEventListener)systemTheme.addEventListener('change',()=>{if(followSystem)applyTheme()});
+else systemTheme.addListener(()=>{if(followSystem)applyTheme()});
 function fullName(){return (state.firstName+' '+state.lastName).trim()}
 function initials(){let p=fullName().split(/\s+/).filter(Boolean);return ((p[0]||'').charAt(0)+(p.length>1?p[p.length-1].charAt(0):'')).toUpperCase()||'V'}
 function role(){return [state.position,state.companyName].filter(Boolean).join(' · ')}
 function displayUrl(v){return (v||'').replace(/^https?:\/\//i,'').replace(/\/$/,'')}
 function normUrl(v){return /^https?:\/\//i.test(v)?v:'https://'+v}
-function cardHtml(){let rows=[]; if(state.phone)rows.push(['☏',state.phone]); if(state.email)rows.push(['✉',state.email]); if(state.website)rows.push(['◎',displayUrl(state.website)]); if(state.address)rows.push(['⌖',state.address]); if(state.linkedin)rows.push(['in',displayUrl(state.linkedin)]); if(state.instagram)rows.push(['＠',state.instagram]); if(state.extra)rows.push(['＋',state.extra]); return `<div class="card"><div class="cardTop"><div class="avatar">${initials()}</div><div><div class="nm">${fullName()||'Vizitka'}</div><div class="role">${role()||tr('cardRoleFallback')}</div></div></div><div class="rule"></div><div class="rows">${rows.map(r=>`<div class="row"><i>${r[0]}</i><span>${r[1]}</span></div>`).join('')||`<div class="row"><i>◎</i><span>${tr('cardEmpty')}</span></div>`}</div></div>`}
-function renderCards(){$('#cardMount').innerHTML=cardHtml();$('#previewMount').innerHTML=cardHtml();}
+function cardHtml(compact=false){let rows=[]; if(state.phone)rows.push(['☏',state.phone]); if(state.email)rows.push(['✉',state.email]); if(state.website)rows.push(['◎',displayUrl(state.website)]); if(state.address)rows.push(['⌖',state.address]); if(state.linkedin)rows.push(['in',displayUrl(state.linkedin)]); if(state.instagram)rows.push(['＠',state.instagram]); if(state.extra)rows.push(['＋',state.extra]); return `<div class="card"><div class="cardTop"><div class="avatar">${initials()}</div><div><div class="nm">${fullName()||'Vizitka'}</div><div class="role">${role()||tr('cardRoleFallback')}</div></div></div>${compact?`<details class="contactDetails"><summary>${tr('contact')}</summary>`:'<div class="rule"></div>'}<div class="rows">${rows.map(r=>`<div class="row"><i>${r[0]}</i><span>${r[1]}</span></div>`).join('')||`<div class="row"><i>◎</i><span>${tr('cardEmpty')}</span></div>`}</div>${compact?'</details>':''}</div>`}
+function renderCards(){$('#cardMount').innerHTML=cardHtml(true);$('#previewMount').innerHTML=cardHtml();}
 function buildVCard(){let n=fullName(); let Ls=['BEGIN:VCARD','VERSION:3.0']; Ls.push('N:'+(state.lastName||'')+';'+(state.firstName||'')+';;;'); Ls.push('FN:'+n); if(state.companyName)Ls.push('ORG:'+state.companyName); if(state.position)Ls.push('TITLE:'+state.position); if(state.phone)Ls.push('TEL;TYPE=CELL:'+state.phone); if(state.email)Ls.push('EMAIL:'+state.email); if(state.website)Ls.push('URL:'+normUrl(state.website)); if(state.address)Ls.push('ADR;TYPE=WORK:;;'+state.address+';;;;'); if(state.description)Ls.push('NOTE:'+state.description); Ls.push('END:VCARD'); return Ls.join('\n')}
 function renderQR(){let el=$('#qrcode');el.innerHTML=''; if(!fullName())return; let qr=QRMatrix.make(buildVCard(),{level:'L'}); let scale=Math.max(3,Math.floor(300/qr.size)); let c=document.createElement('canvas'); c.width=c.height=qr.size*scale; let ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);ctx.fillStyle='#000'; for(let r=0;r<qr.size;r++)for(let col=0;col<qr.size;col++)if(qr.get(r,col))ctx.fillRect(col*scale,r*scale,scale,scale); el.appendChild(c)}
 function saveState(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));localStorage.removeItem(OLD_KEY)}catch(e){}}
@@ -1631,11 +1674,11 @@ function renderThemes(){let box=$('#themeList'); if(!box)return; box.innerHTML=t
 function renderInstallSteps(){var SHARE='<svg class="shareIcon" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14V3.7"/><path d="M8.4 7.3L12 3.7l3.6 3.6"/><path d="M8.3 10.5H6.8a2.8 2.8 0 0 0-2.8 2.8v4.9A2.8 2.8 0 0 0 6.8 21h10.4a2.8 2.8 0 0 0 2.8-2.8v-4.9a2.8 2.8 0 0 0-2.8-2.8h-1.5"/></g></svg>';var build=function(arr){return Array.isArray(arr)?arr.map(function(s,i){return '<div class="installStep"><span class="num">'+(i+1)+'</span><span>'+String(s).replace('{share}',SHARE)+'</span></div>';}).join(''):'';};var iosEl=$('#iosSteps'),andEl=$('#androidSteps');if(iosEl)iosEl.innerHTML=build(tr('iosSteps'));if(andEl)andEl.innerHTML=build(tr('androidSteps'));}
 function download(name,blob){let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1500)}
 function slug(s){return (s||'vizitka').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'vizitka'}
-function init(){lang=detectLang();theme=localStorage.getItem(THEME_KEY)||'navy';renderLangMenu();applyLang(false);setTheme(theme);loadState();renderCards();renderQR();show(hasData()?'home':'onboarding');
+function init(){lang=detectLang();try{theme=localStorage.getItem(THEME_KEY)||'navy';followSystem=localStorage.getItem(AUTO_THEME_KEY)==='true'}catch(e){}$('#darkModeToggle').onclick=()=>setFollowSystem(!followSystem);renderLangMenu();applyLang(false);setTheme(theme);loadState();renderCards();renderQR();show(hasData()?'home':'onboarding');
 $('#langBtn').onclick=()=>{$('#langMenu').hidden=!$('#langMenu').hidden}; $('#langMenu').onclick=e=>{if(e.target.dataset.lang){lang=e.target.dataset.lang;applyLang(true);$('#langMenu').hidden=true}};
 $('#startBtn').onclick=()=>show('edit');$('#installFromStart').onclick=()=>show('install');$('#editBtn').onclick=()=>show('edit');$('#settingsBtn').onclick=()=>show('settings');$('#installBtn').onclick=()=>show('install');$('#settingsClose').onclick=()=>show(hasData()?'home':'onboarding');$('#installClose').onclick=()=>show(hasData()?'home':'onboarding');$('#installDone').onclick=()=>show(hasData()?'home':'onboarding');$('#editBack').onclick=()=>show(hasData()?'home':'onboarding');$('#goHome').onclick=()=>show('home');$('#installFromSettings').onclick=()=>show('install');$('#settingsLangBtn').onclick=()=>{$('#langMenu').hidden=false;window.scrollTo(0,0)};
 $$('.nextStep').forEach(b=>b.onclick=()=>{readForm();setStep(b.dataset.next)});$$('.prevStep').forEach(b=>b.onclick=()=>setStep(b.dataset.prev));$$('.tab').forEach(b=>b.onclick=()=>{readForm();setStep(b.dataset.step)});$$('input,textarea').forEach(i=>i.oninput=()=>{readForm();renderCards()});$('#saveBtn').onclick=()=>{readForm();saveState();show('success')};$('#changeThemeInEdit').onclick=()=>show('settings');
-$('#themeList').onclick=e=>{let b=e.target.closest('[data-theme]'); if(b)setTheme(b.dataset.theme)};$('#resetBtn').onclick=()=>{if(confirm(tr('deleteConfirm'))){try{localStorage.removeItem(STORAGE_KEY);localStorage.removeItem(OLD_KEY)}catch(e){};Object.keys(state).forEach(k=>state[k]='');show('onboarding')}};
+$('#themeList').onclick=e=>{let b=e.target.closest('[data-theme]'); if(b){setFollowSystem(false);setTheme(b.dataset.theme)}};$('#resetBtn').onclick=()=>{if(confirm(tr('deleteConfirm'))){try{localStorage.removeItem(STORAGE_KEY);localStorage.removeItem(OLD_KEY)}catch(e){};Object.keys(state).forEach(k=>state[k]='');show('onboarding')}};
 $('#iosTab').onclick=()=>{$('#iosTab').classList.add('active');$('#androidTab').classList.remove('active');$('#iosSteps').hidden=false;$('#androidSteps').hidden=true};$('#androidTab').onclick=()=>{$('#androidTab').classList.add('active');$('#iosTab').classList.remove('active');$('#androidSteps').hidden=false;$('#iosSteps').hidden=true};
 $('#btnVcf').onclick=()=>download(slug(fullName())+'.vcf',new Blob([buildVCard()],{type:'text/vcard'}));$('#btnPng').onclick=()=>{let c=$('#qrcode canvas'); if(!c)return; c.toBlob(b=>download('vizitka-qr-'+slug(fullName())+'.png',b));};$('#btnShare').onclick=()=>{let text=fullName()+'\n'+[state.position,state.companyName].filter(Boolean).join(', ')+'\n'+[state.phone,state.email,state.website,state.address].filter(Boolean).join('\n'); if(navigator.share)navigator.share({title:'Vizitka',text}); else download(slug(fullName())+'.vcf',new Blob([buildVCard()],{type:'text/vcard'}));};
 if('serviceWorker'in navigator)navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
