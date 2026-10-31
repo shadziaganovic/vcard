@@ -1,4 +1,4 @@
-const CACHE='vizitka-responsive-v3';
+const CACHE='vizitka-responsive-v4';
 const APP_SHELL=['./','./index.html','./manifest.json','./icon-192.png','./icon-512.png',
   './apple-share-icon.svg',
   './vizitka-logo-ice.png','./apple-touch-icon.png'];
